@@ -15,7 +15,7 @@ import java.util.Objects;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     private String username;
 

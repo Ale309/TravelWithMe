@@ -27,16 +27,16 @@ public class AuthenticationController {
     @Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/register") 
-	public String showRegisterForm (Model model) {
+	@GetMapping(value = "/signup") 
+	public String showSignUpForm (Model model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("credentials", new Credentials());
-		return "formRegisterUser";
+		return "formSignUpUser";
 	}
 	
-	@GetMapping(value = "/login") 
-	public String showLoginForm (Model model) {
-		return "formLogin";
+	@GetMapping(value = "/signin") 
+	public String showSignInForm (Model model) {
+		return "formSignIn";
 	}
 
 	@GetMapping(value = "/") 
@@ -56,7 +56,7 @@ public class AuthenticationController {
 	}
 		
     @GetMapping(value = "/success")
-    public String defaultAfterLogin(Model model) {
+    public String defaultAfterSignIn(Model model) {
         
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
@@ -66,7 +66,7 @@ public class AuthenticationController {
         return "index.html";
     }
 
-	@PostMapping(value = { "/register" })
+	@PostMapping(value = { "/signup" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,

@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,7 +32,7 @@ public class Trip {
     private String description;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateofdeparture;
+    private LocalDate dateOfDeparture;
     
     @NotNull
     private Integer availability;
@@ -39,10 +40,12 @@ public class Trip {
     @NotNull
     private Double price;
     
-    private String transport;
+    private Integer days;
 
+	@OneToMany
 	private Set<Image> images;
     
+	@OneToMany
     private Set<Review> reviews;
 
     
@@ -87,11 +90,11 @@ public class Trip {
 	}
 
 	public LocalDate getDateofdeparture() {
-		return dateofdeparture;
+		return dateOfDeparture;
 	}
 
 	public void setDateofdeparture(LocalDate dateofdeparture) {
-		this.dateofdeparture = dateofdeparture;
+		this.dateOfDeparture = dateofdeparture;
 	}
 
 	public Integer getAvailability() {
@@ -110,12 +113,12 @@ public class Trip {
 		this.price = price;
 	}
 	
-	public String getTransport() {
-		return transport;
+	public Integer getDays() {
+		return days;
 	}
 
-	public void setTransport(String transport) {
-		this.transport = transport;
+	public void setDays(Integer days) {
+		this.days = days;
 	}
 
 	public Set<Image> getImages() {
@@ -125,6 +128,10 @@ public class Trip {
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
+	
+    public void addImages(Set<Image> image) {
+    	this.images.addAll(image);
+    }
 
 	public Set<Review> getReviews() {
 		return reviews;
@@ -136,7 +143,7 @@ public class Trip {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(category, dateofdeparture, destination, origin);
+		return Objects.hash(category, dateOfDeparture, destination, origin);
 	}
 
 	@Override
@@ -148,7 +155,7 @@ public class Trip {
 		if (getClass() != obj.getClass())
 			return false;
 		Trip other = (Trip) obj;
-		return Objects.equals(category, other.category) && Objects.equals(dateofdeparture, other.dateofdeparture)
+		return Objects.equals(category, other.category) && Objects.equals(dateOfDeparture, other.dateOfDeparture)
 				&& Objects.equals(destination, other.destination) && Objects.equals(origin, other.origin);
 	}
     

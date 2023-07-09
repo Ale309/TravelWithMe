@@ -1,9 +1,12 @@
 package it.uniroma3.twm.model;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -22,6 +25,9 @@ public class User {
 	private String username;
 	@NotBlank
 	private String email;
+	
+	@OneToMany(mappedBy = "user")
+	private Set<Reservation> reservation;
 
     public Long getId() {
 		return id;
