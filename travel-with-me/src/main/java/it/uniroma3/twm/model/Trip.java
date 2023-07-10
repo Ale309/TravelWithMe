@@ -32,7 +32,7 @@ public class Trip {
     private String description;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateOfDeparture;
+    private LocalDate dateofdeparture;
     
     @NotNull
     private Integer availability;
@@ -90,11 +90,11 @@ public class Trip {
 	}
 
 	public LocalDate getDateofdeparture() {
-		return dateOfDeparture;
+		return dateofdeparture;
 	}
 
 	public void setDateofdeparture(LocalDate dateofdeparture) {
-		this.dateOfDeparture = dateofdeparture;
+		this.dateofdeparture = dateofdeparture;
 	}
 
 	public Integer getAvailability() {
@@ -143,7 +143,7 @@ public class Trip {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(category, dateOfDeparture, destination, origin);
+		return Objects.hash(category, dateofdeparture, destination, origin);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class Trip {
 		if (getClass() != obj.getClass())
 			return false;
 		Trip other = (Trip) obj;
-		return Objects.equals(category, other.category) && Objects.equals(dateOfDeparture, other.dateOfDeparture)
+		return Objects.equals(category, other.category) && Objects.equals(dateofdeparture, other.dateofdeparture)
 				&& Objects.equals(destination, other.destination) && Objects.equals(origin, other.origin);
 	}
     

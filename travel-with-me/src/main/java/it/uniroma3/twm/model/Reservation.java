@@ -16,7 +16,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-	private LocalDate dateOfReservation;
+	private LocalDate dateofreservation;
 	
 	@ManyToOne
 	private Trip trip;
@@ -34,11 +34,11 @@ public class Reservation {
 	}
 
 	public LocalDate getDateofreservation() {
-		return dateOfReservation;
+		return dateofreservation;
 	}
 
-	public void setDateofreservation(LocalDate dateOfReservation) {
-		this.dateOfReservation = dateOfReservation;
+	public void setDateofreservation(LocalDate dateofreservation) {
+		this.dateofreservation = dateofreservation;
 	}
 
 	public Trip getTrip() {
@@ -59,7 +59,7 @@ public class Reservation {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dateOfReservation, id, trip, user);
+		return Objects.hash(dateofreservation, id, trip, user);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class Reservation {
 		if (getClass() != obj.getClass())
 			return false;
 		Reservation other = (Reservation) obj;
-		return Objects.equals(dateOfReservation, other.dateOfReservation) && Objects.equals(id, other.id)
+		return Objects.equals(dateofreservation, other.dateofreservation) && Objects.equals(id, other.id)
 				&& Objects.equals(trip, other.trip) && Objects.equals(user, other.user);
 	}
 	
