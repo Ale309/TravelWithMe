@@ -12,7 +12,7 @@
 	<artifactId>travel-with-me</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>travel-with-me</name>
-	<description>Gestione film</description>
+	<description>Agenzia di viaggi</description>
 	<properties>
 		<java.version>1.8</java.version>
 		 <!-- spring-security.version>5.6.5</spring-security.version -->

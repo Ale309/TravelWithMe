@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>
+			Travel With Me
+		</title>
+			<link rel="stylesheet" href="/css/index.css" />
+	</head>
+	<body>
+		<header>
+			<nav>
+				<div>
+					<a href="/index">Home</a>
+				</div>
+				<button sec:authorize="hasAuthority('ADMIN')">
+					<a href="/admin/reservations"><button>All Reservations</button></a>
+				</button>
+				</div>
+				<div th:if="${userDetails}" class="login">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout"><button>Logout</button></a>
+				</div>
+				<div th:unless="${userDetails}">
+					<a href="/login"><button>Login</button></a>
+				</div>
+			</nav>
+		</header>
+		<section>
+			<div>
+				<a href="/trips">Tutte i pacchetti viaggio</a>
+			</div>
+			<div>
+				<a href="/searchTrip">Book Now</a>
+			</div>
+		</section>
+		<footer>
+    		Made by MADALIN ALEXANDRU AVADANEI
+  		</footer>
+	</body>
+</html>

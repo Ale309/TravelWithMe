@@ -1,6 +1,7 @@
 package it.uniroma3.twm.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.twm.model.Image;
-import it.uniroma3.twm.model.Trip;
 import it.uniroma3.twm.model.Review;
+import it.uniroma3.twm.model.Trip;
 import it.uniroma3.twm.repository.ImageRepository;
 import it.uniroma3.twm.repository.TripRepository;
 import jakarta.transaction.Transactional;
@@ -58,6 +59,26 @@ public class TripService {
 
 	public List<Trip> findByCategory(String category) {
 		return this.tripRepository.findByCategory(category);
+	}
+	
+	public List<Trip> findByOrigin(String origin) {
+		return this.tripRepository.findByOrigin(origin);
+	}
+	
+	public List<Trip> findByCategoryAndOrigin(String category, String origin) {
+		return this.tripRepository.findByCategoryAndOrigin(category, origin);
+	}
+	
+	public List<Trip> findByCategoryAndOriginAndDestination(String category, String origin, String destination) {
+		return this.tripRepository.findByCategoryAndOriginAndDestination(category, origin, destination);
+	}
+	
+	public List<Trip> findByCategoryAndOriginAndDateofdeparture(String category, String origin, LocalDate dateofdeparture) {
+		return this.tripRepository.findByCategoryAndOriginAndDateofdeparture(category, origin, dateofdeparture);
+	}
+	
+	public List<Trip> findByCategoryAndOriginAndDestinationAndDateofdeparture(String category, String origin, String destination, LocalDate dateofdeparture) {
+		return this.tripRepository.findByCategoryAndOriginAndDestinationAndDateofdeparture(category, origin, destination, dateofdeparture);
 	}
 	
 	public String function(Model model, Trip trip, String username){
