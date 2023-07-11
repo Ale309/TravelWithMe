@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.twm.controller.validator.ReservationValidator;
 import it.uniroma3.twm.model.Credentials;
@@ -18,7 +16,6 @@ import it.uniroma3.twm.model.Reservation;
 import it.uniroma3.twm.service.CredentialsService;
 import it.uniroma3.twm.service.ReservationService;
 import it.uniroma3.twm.service.TripService;
-import jakarta.validation.Valid;
 
 @Controller
 public class ReservationController {
@@ -38,8 +35,10 @@ public class ReservationController {
 	@Autowired
 	private GlobalController globalController;
 	
-	@PostMapping("/newReservation")
-	public String newReservation(@Valid @ModelAttribute("reservation") Reservation reservation, @RequestParam("tripId") Long id, BindingResult bindingResult, Model model) {
+	@PostMapping(value="/newReservation/{tripId}")
+	public String newReservation(@PathVariable("tripId") Long id, BindingResult bindingResult, Model model) {
+		
+		Reservation reservation = new Reservation();
 		
 		String username = this.globalController.getUser().getUsername();
 		for(Credentials cred : this.credentialsService.findAllCredentials()) {
@@ -53,7 +52,7 @@ public class ReservationController {
 		
 		if (!bindingResult.hasErrors()) {
 			model.addAttribute("reservation", this.reservationService.createNewReservation(reservation));
-			return "myReservations.html";
+			return "trips.html";
 		}else{
 			return "error.html";
 		}
@@ -74,7 +73,7 @@ public class ReservationController {
 	@GetMapping("/reservations")
 	public String getReservations(Model model) {
 		model.addAttribute("reservations", this.reservationService.findAllReservation());
-		return "reservations.html";
+		return "admin/Reservations.html";
 	}
 	
 	@GetMapping("/deleteReservation/{reservationId}")

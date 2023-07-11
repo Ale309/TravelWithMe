@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.twm.controller.validator.TripValidator;
 import it.uniroma3.twm.model.Review;
 import it.uniroma3.twm.model.Trip;
+import it.uniroma3.twm.service.ReservationService;
 import it.uniroma3.twm.service.TripService;
 import jakarta.validation.Valid;
 
@@ -24,6 +25,9 @@ public class TripController {
 
 	@Autowired
 	private TripService tripService;
+	
+	@Autowired
+	private ReservationService reservationService;
 	
 	@Autowired 
 	private TripValidator tripValidator;
@@ -37,7 +41,7 @@ public class TripController {
 		return "admin/formNewTrip.html";
 	}
 
-	@PostMapping("/trip")
+	@PostMapping("/admin/trip")
 	public String newTrip(@Valid @ModelAttribute("trip") Trip trip, BindingResult bindingResult,@RequestParam("tripImage") MultipartFile[] multipartFile, Model model) {
 
 		this.tripValidator.validate(trip, bindingResult);
@@ -57,11 +61,19 @@ public class TripController {
 			model.addAttribute("review",new Review());
 			model.addAttribute("reviews",trip.getReviews());
 			model.addAttribute("hasReviews",!trip.getReviews().isEmpty());
+			
+			model.addAttribute("user");
 
 			if(this.globalController.getUser() != null && this.globalController.getUser().getUsername() != null && this.tripService.alreadyReviewed(trip.getReviews(),this.globalController.getUser().getUsername()))
-	            model.addAttribute("hasNotAlredyCommented", false);
+	            model.addAttribute("hasNotAlreadyCommented", false);
 	        else
 	            model.addAttribute("hasNotAlreadyCommented", true);
+			
+			if(this.globalController.getUser() != null && this.globalController.getUser().getUsername() != null && this.reservationService.alreadyPartecipate(trip,this.globalController.getUser().getUsername()))
+	            model.addAttribute("hasPartecipated", true);
+	        else
+	            model.addAttribute("hasPartecipated", false);
+			
 			return "trip.html";
 
 		}else {
