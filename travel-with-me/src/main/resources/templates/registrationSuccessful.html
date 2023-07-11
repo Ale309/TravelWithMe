@@ -26,7 +26,19 @@
 			</nav>
 		</header>
 		<section>
-
+			<h1>Congratulazioni ti sei registrato!</h1>
+			<div>
+				<span>Nome: </span>
+				<span th:text="${user.name}"></span>
+			</div>
+			<div>
+				<span>Cognome: </span>
+				<span th:text="${user.surname}"></span>
+			</div>
+			<div>
+				<span>Email: </span>
+				<span th:text="${user.email}"></span>
+			</div>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

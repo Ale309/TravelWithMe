@@ -89,9 +89,9 @@ public class TripController {
 
 	}
 
-	@GetMapping("/formSearchTrip")
+	@GetMapping("/searchTrip")
 	public String formSearchTrip() {
-		return "formSearchTrip.html";
+		return "formSearchTrip";
 	}
 
 	@PostMapping("/searchTripsByCategory")

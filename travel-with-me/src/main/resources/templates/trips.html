@@ -10,14 +10,11 @@
 		<header>
 			<nav>
 				<div>
-					<a href="/index">Home</a>
+					<a href="/">Home</a>
 				</div>
-				<button sec:authorize="hasAuthority('ADMIN')">
+				<div sec:authorize="hasAuthority('ADMIN')">
 					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</button>
-				<button>
-					<a href="/myReservation"
-				</button>
+				</div>
 				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
@@ -29,7 +26,15 @@
 			</nav>
 		</header>
 		<section>
-			
+			<h1>Viaggi</h1>
+			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono Viaggi nel sistema</div>
+			<ul>
+				<li th:each="trip : ${trips}">
+					<a th:href="@{'/trip' + '/' + ${trip.id}}" th:text="Category: ${trip.category} <br/>
+					From: ${trip.origin} <br/>
+					To: ${trip.destination}">...</a>
+				</li>
+			</ul>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

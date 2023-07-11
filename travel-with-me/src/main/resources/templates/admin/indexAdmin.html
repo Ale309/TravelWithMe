@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.w3.org/1999/xhtml">
+<html>
 	<head>
 		<title>
 			Travel With Me
@@ -12,7 +12,7 @@
 				<div>
 					<a href="/">Home</a>
 				</div>
-				<div sec:authorize="hasAuthority('ADMIN')">
+				<div>
 					<a href="/admin/reservations"><button>All Reservations</button></a>
 				</div>
 				</div>
@@ -21,7 +21,7 @@
 					<a href="/logout"><button>Logout</button></a>
 				</div>
 				<div th:unless="${userDetails}">
-					<a href="/signin"><button>Login</button></a>
+					<a href="/login"><button>Login</button></a>
 				</div>
 			</nav>
 		</header>

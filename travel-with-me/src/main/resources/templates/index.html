@@ -10,11 +10,11 @@
 		<header>
 			<nav>
 				<div>
-					<a href="/index">Home</a>
+					<a href="/">Home</a>
 				</div>
-				<button sec:authorize="hasAuthority('ADMIN')">
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</button>
+				<div sec:authorize="hasAuthority('DEFAULT')">
+					<a href="/myReservations"><button>My reservations</button></a>
+				</div>
 				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
@@ -27,7 +27,7 @@
 		</header>
 		<section>
 			<div>
-				<a href="/trips">Tutti i pacchetti viaggio</a>
+				<a href="/trip">Tutti i viaggi</a>
 			</div>
 			<div>
 				<a href="/searchTrip">Book Now</a>
