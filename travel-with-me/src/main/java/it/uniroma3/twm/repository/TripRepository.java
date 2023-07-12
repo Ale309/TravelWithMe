@@ -17,11 +17,11 @@ public interface TripRepository extends CrudRepository<Trip, Long> {
 	
 	public List<Trip> findByCategoryAndOriginAndDestination(String category, String origin, String destination);
 	
-	public List<Trip> findByCategoryAndOriginAndDateofdeparture(String category, String origin, LocalDate dateofdeparture);
+	public List<Trip> findByCategoryAndOriginAndDeparturedate(String category, String origin, LocalDate departureDate);
 	
-	public List<Trip> findByCategoryAndOriginAndDestinationAndDateofdeparture(String category, String origin, String destination, LocalDate dateofdeparture);
+	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedate(String category, String origin, String destination, LocalDate departuredate);
 
 
-	public boolean existsByCategoryAndDateofdepartureAndOriginAndDestination(String category, LocalDate dateOfDeparture, String origin, String destination);
+	public boolean existsByCategoryAndDeparturedateAndReturndateAndOriginAndDestination(String category, LocalDate departureDate, LocalDate returnDate, String origin, String destination);
 	
 }

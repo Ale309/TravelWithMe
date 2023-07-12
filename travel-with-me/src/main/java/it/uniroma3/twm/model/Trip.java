@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,10 +32,17 @@ public class Trip {
     
     private String description;
     
+    @NotNull
+    @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateofdeparture;
+    private LocalDate departuredate;
     
     @NotNull
+    @Future
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate returndate;
+
+	@NotNull
     private Integer availability;
     
     @NotNull
@@ -89,12 +97,20 @@ public class Trip {
 		this.description = description;
 	}
 
-	public LocalDate getDateofdeparture() {
-		return dateofdeparture;
+	public LocalDate getDeparturedate() {
+		return departuredate;
 	}
 
-	public void setDateofdeparture(LocalDate dateofdeparture) {
-		this.dateofdeparture = dateofdeparture;
+	public void setDeparturedate(LocalDate departureDate) {
+		this.departuredate = departureDate;
+	}
+	
+	public LocalDate getReturndate() {
+		return returndate;
+	}
+
+	public void setReturndate(LocalDate returndate) {
+		this.returndate = returndate;
 	}
 
 	public Integer getAvailability() {
@@ -143,7 +159,7 @@ public class Trip {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(category, dateofdeparture, destination, origin);
+		return Objects.hash(category, departuredate, returndate, destination, origin);
 	}
 
 	@Override
@@ -155,7 +171,7 @@ public class Trip {
 		if (getClass() != obj.getClass())
 			return false;
 		Trip other = (Trip) obj;
-		return Objects.equals(category, other.category) && Objects.equals(dateofdeparture, other.dateofdeparture)
+		return Objects.equals(category, other.category) && Objects.equals(departuredate, other.departuredate) && Objects.equals(returndate, other.returndate)
 				&& Objects.equals(destination, other.destination) && Objects.equals(origin, other.origin);
 	}
     

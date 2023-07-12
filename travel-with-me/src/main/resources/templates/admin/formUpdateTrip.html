@@ -24,7 +24,73 @@
 			</nav>
 		</header>
 		<section>
-
+			<h1>Dettagli Viaggio</h1>
+			<div th:if="${trip}">
+				<div th:each="image: ${trip.images}">
+            		<img th:src="@{'/image/' + ${image.id}}">
+            		<button>
+						<a th:href="'/admin/deleteImage/' + ${trip.id} + '/' + ${image.id}">Remove</a>
+					</button>
+        		</div>
+        		<form th:action="@{'/admin/updateTripImages/' + ${movie.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
+					<div>
+						<label>Aggiungi immagini:</label> <span><input type="file" name="tripImage" multiple /></span>
+					</div>
+					<div>
+						<span><button type="submit">Conferma</button></span>
+					</div>
+				</form>
+				<div>
+					<span>Category: </span><span th:text="${trip.category}">...</span>
+				</div>
+				<div>
+					<span>From: </span><span th:text="${trip.origin}">...</span>
+				</div>
+				<div>
+					<span>To: </span><span th:text="${trip.destination}">...</span>
+				</div>
+				<div>
+					<span>Departure Date: </span><span th:text="${trip.dateofdeparture}">...</span>
+				</div>
+				<div>
+					<span>Days: </span><span th:text="${trip.days}">...</span>
+				</div>
+				<div>
+					<span>Description: </span><span th:text="${trip.description}">...</span>
+				</div>
+				<form th:action="@{'/admin/changeDescription/' + '${trip.id}'}" method="POST">
+					<div>
+						<label>New Description: </label><span><input type="text" name="newDescription"/></span>
+					</div>
+					<div>
+						<span><button type="submit">Change</button></span>
+					</div>
+				</form>
+				<div>
+					<span>Price: </span><span th:text="${trip.price}">...</span>
+				</div>
+				<form th:action="@{'/admin/changePrice/' + '${trip.id}'}" method="POST">
+					<div>
+						<label>New price: </label><span><input type="text" name="newPrice"/></span>
+					</div>
+					<div>
+						<span><button type="submit">Change</button></span>
+					</div>
+				</form>
+				<div>
+					<span>Availability: </span><span th:text="${trip.availability}">...</span>
+				</div>
+				<form th:action="@{'/admin/changeAvailability/' + '${trip.id}'}" method="POST">
+					<div>
+						<label>New Availability: </label><span><input type="text" name="newAvailability"/></span>
+					</div>
+					<div>
+						<span><button type="submit">Change</button></span>
+					</div>
+				</form>
+			</div>
+			<div th:unless="${trip}">Non esiste	il viaggio
+			</div>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

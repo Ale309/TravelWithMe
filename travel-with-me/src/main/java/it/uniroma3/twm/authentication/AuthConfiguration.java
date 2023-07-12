@@ -52,7 +52,7 @@ import javax.sql.DataSource;
                 .authorizeHttpRequests()
 //                .requestMatchers("/**").permitAll()
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css, alle immagini, all'elenco dei film e degli artisti.
-                .requestMatchers(HttpMethod.GET,"/","/index","/register","/login","/searchTrip","/css/**", "/images/**", "favicon.ico","/trip","/trip/{id}","/image/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET,"/","/index","/register","/login","/searchTrip","/css/**", "/images/**", "favicon.ico","/trips","/trip/{id}","/image/{id}").permitAll()
         		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
                 .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
                 .requestMatchers(HttpMethod.GET,"/admin/**","/addReview").hasAnyAuthority(ADMIN_ROLE)

@@ -16,8 +16,8 @@ public class TripValidator implements Validator {
 	@Override
 	public void validate(Object o, Errors errors) {
 		Trip trip = (Trip)o;
-		if (trip.getCategory()!= null && trip.getDateofdeparture()!= null && trip.getDestination()!= null && trip.getOrigin() != null
-				&& tripRepository.existsByCategoryAndDateofdepartureAndOriginAndDestination(trip.getCategory(), trip.getDateofdeparture(), trip.getDestination(), trip.getOrigin())) {
+		if (trip.getCategory()!= null && trip.getDeparturedate()!= null && trip.getReturndate()!= null && trip.getDestination()!= null && trip.getOrigin() != null
+				&& tripRepository.existsByCategoryAndDeparturedateAndReturndateAndOriginAndDestination(trip.getCategory(), trip.getDeparturedate(), trip.getReturndate(), trip.getDestination(), trip.getOrigin())) {
 			errors.reject("trip.duplicate");
 		}
 	}

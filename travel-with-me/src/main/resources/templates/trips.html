@@ -15,6 +15,9 @@
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<a href="/admin/reservations"><button>All Reservations</button></a>
 				</div>
+				<div sec:authorize="hasAuthority('DEFAULT')">
+					<a href="/myReservations"><button>My Reservations</button></a>
+				</div>
 				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
@@ -26,13 +29,43 @@
 			</nav>
 		</header>
 		<section>
-			<h1>Viaggi</h1>
-			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono Viaggi nel sistema</div>
+			<h1>Elenco Viaggi(<span th:text="${numtrips}"></span>)</h1>
+			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono viaggi nel sistema</div>
 			<ul>
 				<li th:each="trip : ${trips}">
-					<a th:href="@{'/trip' + '/' + ${trip.id}}" th:text="Category: ${trip.category} <br/>
-					From: ${trip.origin} <br/>
-					To: ${trip.destination}">...</a>
+						<div>
+							------------------------------------------------------------
+						</div>
+						<div th:each="image: ${trip.images}">
+            				<img th:src="@{'/image/' + ${image.id}}">
+        				</div>
+						<div>
+							<span>Category: <span th:text="${trip.category}">...</span></span>
+						</div>
+						<div>
+							<span>From: <span th:text="${trip.origin}">...</span></span>
+						</div>
+						<div>
+							<span>To: <span th:text="${trip.destination}">...</span></span>
+						</div>
+						<div>
+							<span>Date Of Departure: <span th:text="${trip.dateofdeparture}">...</span></span>
+						</div>
+						<div>
+							<span>Days: <span th:text="${trip.days}">...</span></span>
+						</div>
+						<div>
+							<span>Price: <span th:text="${trip.price}">...</span></span><span> EUR</span>
+						</div>
+						<div th:if="${trip.availability != 0}">
+							<button sec:authorize="hasAuthority('DEFAULT')">
+								<a th:href="@{'/newReservation/' + ${trip.id}}">Book</a>
+							</button>
+						</div>
+
+						<button>
+							<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
+						</button>
 				</li>
 			</ul>
 		</section>

@@ -15,6 +15,9 @@
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<a href="/admin/reservations"><button>All Reservations</button></a>
 				</div>
+				<div sec:authorize="hasAuthority('DEFAULT')">
+					<a href="/myReservations"><button>My Reservations</button></a>
+				</div>
 				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
@@ -32,61 +35,33 @@
             		<img th:src="@{'/image/' + ${image.id}}">
         		</div>
 				<div>
-					<span>Category: </span>
-					<span th:text="${trip.category}">...</span>
+					<span>Category: </span><span th:text="${trip.category}">...</span>
 				</div>
 				<div>
-					<span>Origin: </span>
-					<span th:text="${trip.origin}">...</span>
+					<span>From: </span><span th:text="${trip.origin}">...</span>
 				</div>
 				<div>
-					<span>Destination: </span>
-					<span th:text="${trip.destination}">...</span>
+					<span>To: </span><span th:text="${trip.destination}">...</span>
 				</div>
 				<div>
-					<span>Description: </span>
-					<span th:text="${trip.description}">...</span>
+					<span>Date of departure: </span><span th:text="${trip.dateofdeparture}">...</span>
 				</div>
 				<div>
-					<span>Date of departure: </span>
-					<span th:text="${trip.dateofdeparture}">...</span>
+					<span>Description: </span><span th:text="${trip.description}">...</span>
 				</div>
 				<div>
-					<span>Days: </span>
-					<span th:text="${trip.days}">...</span>
+					<span>Days: </span><span th:text="${trip.days}">...</span>
 				</div>
 				<div>
-					<span>Availability: </span>
-					<span th:text="${trip.availability}">...</span>
+					<span>Availability: </span><span th:text="${trip.availability}">...</span>
 				</div>
 				<div>
-					<span>Price: </span>
-					<span th:text="${trip.price}">...</span>
+					<span>Price: </span><span th:text="${trip.price}">...</span><span> EUR</span>
 				</div>
 				
-				<h1>Recensioni</h1>
-        		<div th:if="${hasReviews}">
-            		<ul th:each="rev : ${reviews}">
-                	<div>
-                    	<span th:text="${rev.username}"></span> <span> Ha Scritto </span>
-                	</div>
-                	<div>
-                    	<span>Titolo: </span> <span th:text="${rev.title}"></span>
-                	</div>
-					<div>
-                    	<span>Descrizione: </span> <span th:text="${rev.description}"></span>
-              		</div>
-                	<div class="bottom-label">
-                    	<span>Rating: </span><span th:text="'Rating: ' + ${rev.rating}"></span>
-                    	<button sec:authorize="hasAuthority('ADMIN')">
-                       		<a th:href="'/admin/deleteReview/' + ${trip.id} + '/' + ${rev.id}">Delete</a>
-                    	</button>
-                	</div>
-            		</ul>
-        		</div>
-        		<div th:unless="${hasReviews}">
-            		Non ci sono recensioni per ora.
-        		</div>
+				<button sec:authorize="hasAuthority('ADMIN')">
+               		<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update this trip</a>
+                </button>
         		
         		<div sec:authorize="hasAuthority('DEFAULT')">
 					<div th:if="${hasPartecipated}">
@@ -115,11 +90,38 @@
             			</div>
         			</div>
         			<div th:unless="${hasPartecipated}">
-						<a th:href="@{'/newReservation/' + ${trip.id}}"><button>Book</button></a>
+						<div th:if="${trip.availability != 0}">
+							<a th:href="@{'/newReservation/' + ${trip.id}}"><button>Book</button></a>
+						</div>
 					</div>
 				</div>
+				
+				<h1>Recensioni</h1>
+        		<div th:if="${hasReviews}">
+            		<ul th:each="rev : ${reviews}">
+                	<div>
+                    	<span th:text="${rev.username}"></span> <span> Ha Scritto </span>
+                	</div>
+                	<div>
+                    	<span>Titolo: </span> <span th:text="${rev.title}"></span>
+                	</div>
+					<div>
+                    	<span>Descrizione: </span> <span th:text="${rev.description}"></span>
+              		</div>
+                	<div class="bottom-label">
+                    	<span>Rating: </span><span th:text="'Rating: ' + ${rev.rating}"></span>
+                    	<button sec:authorize="hasAuthority('ADMIN')">
+                       		<a th:href="'/admin/deleteReview/' + ${trip.id} + '/' + ${rev.id}">Delete</a>
+                    	</button>
+                	</div>
+            		</ul>
+        		</div>
+        		<div th:unless="${hasReviews}">
+            		Non ci sono recensioni per ora.
+        		</div>
+        		
 			</div>
-			<div th:unless="${trip}">Non esiste	
+			<div th:unless="${trip}">Non esiste	il viaggio
 			</div>
 		</section>
 		<footer>

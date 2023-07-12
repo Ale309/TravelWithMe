@@ -22,7 +22,38 @@
 			</nav>
 		</header>
 		<section>
-
+			<div th:if="${reservations==null || reservations.isEmpty()}">There are no reservations</div>
+			<ul>
+				<li th:each="reservation : ${reservations}">
+					<div>
+						------------------------------------------------------------
+					</div>
+					<div>
+						<span>On <span th:text="${reservation.dateofreservation}">...</span></span>
+						<span>the user <span th:text="${reservation.getUser().getUsername() + 
+						'(' + ${reservation.getUser().getName()} + ',' + ${reservation.getUser().getSurname()} ')'}">...</span></span>
+						<span>has booked the following trip :</span>
+					</div>
+					<div>
+						<span>Category: <span th:text="${reservation.getTrip().category}">...</span></span>
+					</div>
+					<div>
+						<span>From: <span th:text="${reservation.getTrip().origin}">...</span></span>
+					</div>
+					<div>
+						<span>To: <span th:text="${reservation.getTrip().destination}">...</span></span>
+					</div>
+					<div>
+						<span>Date Of Departure: <span th:text="${reservation.getTrip().dateofdeparture}">...</span></span>
+					</div>
+					<div>
+						<span>Days: <span th:text="${reservation.getTrip().days}">...</span></span>
+					</div>
+					<button>
+						<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
+					</button>
+				</li>
+			</ul>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

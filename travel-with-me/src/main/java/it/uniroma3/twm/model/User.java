@@ -29,7 +29,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private Set<Reservation> reservation;
 
-    public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -66,6 +66,14 @@ public class User {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Set<Reservation> getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Set<Reservation> reservation) {
+		this.reservation = reservation;
 	}
 
 	@Override
