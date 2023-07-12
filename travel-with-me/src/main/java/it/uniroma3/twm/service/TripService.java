@@ -73,12 +73,16 @@ public class TripService {
 		return this.tripRepository.findByCategoryAndOriginAndDestination(category, origin, destination);
 	}
 	
-	public List<Trip> findByCategoryAndOriginAndDeparturedate (String category, String origin, LocalDate departuredate) {
+	public List<Trip> findByCategoryAndOriginAndDeparturedate(String category, String origin, LocalDate departuredate) {
 		return this.tripRepository.findByCategoryAndOriginAndDeparturedate(category, origin, departuredate);
 	}
 	
 	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedate(String category, String origin, String destination, LocalDate departuredate) {
 		return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departuredate);
+	}
+	
+	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(String category, String origin, String destination, LocalDate departuredate, LocalDate returndate) {
+		return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(category, origin, destination, departuredate, returndate);
 	}
 	
 	public String function(Model model, Trip trip, String username){

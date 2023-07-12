@@ -21,6 +21,8 @@ public interface TripRepository extends CrudRepository<Trip, Long> {
 	
 	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedate(String category, String origin, String destination, LocalDate departuredate);
 
+	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(String category, String origin, String destination, LocalDate departuredate, LocalDate returndate);
+
 
 	public boolean existsByCategoryAndDeparturedateAndReturndateAndOriginAndDestination(String category, LocalDate departureDate, LocalDate returnDate, String origin, String destination);
 	

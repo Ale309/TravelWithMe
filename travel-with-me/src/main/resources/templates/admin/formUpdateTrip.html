@@ -32,7 +32,7 @@
 						<a th:href="'/admin/deleteImage/' + ${trip.id} + '/' + ${image.id}">Remove</a>
 					</button>
         		</div>
-        		<form th:action="@{'/admin/updateTripImages/' + ${movie.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
+        		<form th:action="@{'/admin/updateTripImages/' + ${trip.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
 					<div>
 						<label>Aggiungi immagini:</label> <span><input type="file" name="tripImage" multiple /></span>
 					</div>
@@ -61,7 +61,7 @@
 				<div>
 					<span>Description: </span><span th:text="${trip.description}">...</span>
 				</div>
-				<form th:action="@{'/admin/changeDescription/' + '${trip.id}'}" method="POST">
+				<form th:action="@{'/admin/changeDescription/' + ${trip.id}}" method="POST">
 					<div>
 						<label>New Description: </label><span><input type="text" name="newDescription"/></span>
 					</div>
@@ -72,7 +72,7 @@
 				<div>
 					<span>Price: </span><span th:text="${trip.price}">...</span>
 				</div>
-				<form th:action="@{'/admin/changePrice/' + '${trip.id}'}" method="POST">
+				<form th:action="@{'/admin/changePrice/' + ${trip.id}}" method="POST">
 					<div>
 						<label>New price: </label><span><input type="text" name="newPrice"/></span>
 					</div>
@@ -83,7 +83,7 @@
 				<div>
 					<span>Availability: </span><span th:text="${trip.availability}">...</span>
 				</div>
-				<form th:action="@{'/admin/changeAvailability/' + '${trip.id}'}" method="POST">
+				<form th:action="@{'/admin/changeAvailability/' + ${trip.id}}" method="POST">
 					<div>
 						<label>New Availability: </label><span><input type="text" name="newAvailability"/></span>
 					</div>

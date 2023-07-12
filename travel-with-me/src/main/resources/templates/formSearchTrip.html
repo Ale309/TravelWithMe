@@ -29,7 +29,15 @@
 			</nav>
 		</header>
 		<section>
-			
+			<h1>Find your Trip</h1>
+			<form th:action="@{/searchTrip}" method="POST">
+				<div>Category: <input type="text" th:value="${category}" name="category" /></div>
+				<div>From: <input type="text" th:value="${origin}" name="origin" /></div>
+				<div>To: <input type="text" th:value="${destination}" name="destination" /></div>
+				<div>Departure date: <input type="date" th:value="${departuredate}" name="departuredate" /></div>
+				<div>Return date: <input type="date" th:value="${returndate}" name="returndate" /></div>
+				<div><input type="submit" /></div>
+			</form>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

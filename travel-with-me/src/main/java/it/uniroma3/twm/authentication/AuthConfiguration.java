@@ -54,7 +54,7 @@ import javax.sql.DataSource;
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css, alle immagini, all'elenco dei film e degli artisti.
                 .requestMatchers(HttpMethod.GET,"/","/index","/register","/login","/searchTrip","/css/**", "/images/**", "favicon.ico","/trips","/trip/{id}","/image/{id}").permitAll()
         		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
-                .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
+                .requestMatchers(HttpMethod.POST,"/register", "/login","/findTrip").permitAll()
                 .requestMatchers(HttpMethod.GET,"/admin/**","/addReview").hasAnyAuthority(ADMIN_ROLE)
                 .requestMatchers(HttpMethod.POST,"/admin/**","/addReview").hasAnyAuthority(ADMIN_ROLE)
         		// tutti gli utenti autenticati possono accere alle pagine rimanenti 

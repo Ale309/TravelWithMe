@@ -42,7 +42,7 @@ public class ImageController {
     }	
 
 	@PostMapping("/admin/updateTripImages/{tripId}")
-	public String addImageToTrip(@PathVariable("movieId") Long tripId, @RequestParam("tripImage") MultipartFile[] multipartFile, Model model) {
+	public String addImageToTrip(@PathVariable("tripId") Long tripId, @RequestParam("tripImage") MultipartFile[] multipartFile, Model model) {
 		Trip trip = this.tripService.findById(tripId);
 		Set<Image> immagini = new HashSet<>();
 		try {

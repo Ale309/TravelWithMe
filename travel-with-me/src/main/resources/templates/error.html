@@ -29,7 +29,13 @@
 			</nav>
 		</header>
 		<section>
-			C'è stato un errore!
+			C'e' stato un errore!
+			<div th:if="${errors}">
+				<div th:each="error : ${errors}">
+					<span th:text="${error}"></span>
+					
+				</div>
+			</div>
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

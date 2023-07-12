@@ -25,7 +25,7 @@
 		</header>
 		<section>
 			<h1>Aggiungi un nuovo viaggio</h1>
-				<form th:action="@{/admin/trip}" method="POST" th:object="${trip}" enctype="multipart/form-data">
+				<form th:action="@{/admin/trip}" method="POST" th:object="${trip}" enctype="multipart/form-data" onsubmit="return validateDates();">
 					<div th:if="${#fields.hasGlobalErrors()}">
   						<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
   					</div>
@@ -49,12 +49,12 @@
 					</div>
 					<div>
 						<label>Departure date:</label>
-						<span><input type="date" th:field="${trip.departuredate}"/></span>
+						<span><input type="date" id="departureDate" th:field="${trip.departuredate}"/></span>
 						<span th:if="${#fields.hasErrors('departuredate')}" th:errors="*{departuredate}"></span>
 					</div>
 					<div>
 						<label>Return date:</label>
-						<span><input type="date" th:field="${trip.returndate}" th:min="${trip.departuredate}" readonly/></span>
+						<span><input type="date" id="returnDate" th:field="${trip.returndate}"/></span>
 						<span th:if="${#fields.hasErrors('returndate')}" th:errors="*{returndate}"></span>
 					</div>
 					<div>
@@ -76,6 +76,19 @@
 						<span><button type="submit">Add</button></span>
 					</div>
 				</form>
+				
+				<script>
+    				function validateDates() {
+        			var departureDate = new Date(document.getElementById('departureDate').value);
+        			var returnDate = new Date(document.getElementById('returnDate').value);
+
+        			if (returnDate < departureDate) {
+            			alert('The return date cannot be earlier than the departure date');
+            			return false;
+        				}
+    				}
+				</script>
+				
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

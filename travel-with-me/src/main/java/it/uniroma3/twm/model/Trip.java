@@ -49,7 +49,6 @@ public class Trip {
     @NotNull
     private Double price;
     
-    @NotNull
     private Long days;
 
 	@OneToMany
