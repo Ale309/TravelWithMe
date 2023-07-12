@@ -1,6 +1,7 @@
 package it.uniroma3.twm.controller;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class TripController {
 
 		this.tripValidator.validate(trip, bindingResult);
 		if (!bindingResult.hasErrors()) {
+			trip.setDays(ChronoUnit.DAYS.between(trip.getDeparturedate(), trip.getReturndate()) + 1);
 			model.addAttribute("trip", this.tripService.createNewTrip(trip, multipartFile));
 			return "trip.html";
 		} else {
@@ -164,14 +166,14 @@ public class TripController {
 	}
 	
 	@PostMapping("/searchTripsByCategoryAndOriginAndDateofdeparture")
-	public String searchTripsByCategoryAndOriginAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam LocalDate dateofdeparture) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDateofdeparture(category, origin, dateofdeparture));
+	public String searchTripsByCategoryAndOriginAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam LocalDate departuredate) {
+		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDeparturedate(category, origin, departuredate));
 		return "trips.html";
 	}
 	
 	@PostMapping("/searchTripsByCategoryAndOriginAndDestinationAndDateofdeparture")
-	public String searchTripsByCategoryAndOriginAndDestinationAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam String destination, @RequestParam LocalDate dateofdeparture) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestinationAndDateofdeparture(category, origin, destination, dateofdeparture));
+	public String searchTripsByCategoryAndOriginAndDestinationAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam String destination, @RequestParam LocalDate departuredate) {
+		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departuredate));
 		return "trips.html";
 	}
 

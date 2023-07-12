@@ -35,6 +35,7 @@
 					<div>
 						<span>Date Of Reservation: <span th:text="${reservation.dateofreservation}">...</span></span>
 					</div>
+					<span>Trip details:</span>
 					<div>
 						<span>Category: <span th:text="${reservation.getTrip().category}">...</span></span>
 					</div>
@@ -45,11 +46,17 @@
 						<span>To: <span th:text="${reservation.getTrip().destination}">...</span></span>
 					</div>
 					<div>
-						<span>Date Of Departure: <span th:text="${reservation.getTrip().dateofdeparture}">...</span></span>
+						<span>Departure date: <span th:text="${reservation.getTrip().departuredate}">...</span></span>
+					</div>
+					<div>
+						<span>Return date: <span th:text="${reservation.getTrip().retundate}">...</span></span>
 					</div>
 					<div>
 						<span>Days: <span th:text="${reservation.getTrip().days}">...</span></span>
 					</div>
+					<button>
+						<a th:href="@{'/trip' + '/' + ${reservation.getTrip().id}}">See trip with details</a>
+					</button>
 				</li>
 			</ul>
 		</section>

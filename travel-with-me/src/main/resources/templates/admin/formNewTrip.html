@@ -34,42 +34,42 @@
 					</div>
   					<div>
 						<label>Category:</label>
-						<span><input type="text" th:field="${trip.category}"></span>
+						<span><input type="text" th:field="${trip.category}"/></span>
 						<span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
 					</div>
 					<div>
-						<label>Origin:</label>
-						<span><input type="text" th:field="${trip.origin}"></span>
+						<label>From:</label>
+						<span><input type="text" th:field="${trip.origin}"/></span>
 						<span th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></span>
 					</div>
 					<div>
-						<label>Destination:</label>
-						<span><input type="text" th:field="${trip.destination}"></span>
+						<label>To:</label>
+						<span><input type="text" th:field="${trip.destination}"/></span>
 						<span th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></span>
 					</div>
 					<div>
+						<label>Departure date:</label>
+						<span><input type="date" th:field="${trip.departuredate}"/></span>
+						<span th:if="${#fields.hasErrors('departuredate')}" th:errors="*{departuredate}"></span>
+					</div>
+					<div>
+						<label>Return date:</label>
+						<span><input type="date" th:field="${trip.returndate}" th:min="${trip.departuredate}" readonly/></span>
+						<span th:if="${#fields.hasErrors('returndate')}" th:errors="*{returndate}"></span>
+					</div>
+					<div>
 						<label>Description:</label>
-						<span><input type="text" th:field="${trip.description}"></span>
+						<span><input type="text" th:field="${trip.description}"/></span>
 						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
 					</div>
 					<div>
-						<label>Date Of Departure:</label>
-						<span><input type="date" th:field="${trip.dateofdeparture}"></span>
-						<span th:if="${#fields.hasErrors('dateofdeparture')}" th:errors="*{dateofdeparture}"></span>
-					</div>
-					<div>
-						<label>Days:</label>
-						<span><input type="text" th:field="${trip.days}"></span>
-						<span th:if="${#fields.hasErrors('days')}" th:errors="*{days}"></span>
-					</div>
-					<div>
 						<label>Availability:</label>
-						<span><input type="text" th:field="${trip.availability}"></span>
+						<span><input type="text" th:field="${trip.availability}"/></span>
 						<span th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}"></span>
 					</div>
 					<div>
 						<label>Price:</label>
-						<span><input type="text" th:field="${trip.price}"></span>
+						<span><input type="text" th:field="${trip.price}"/></span>
 						<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
 					</div>
 					<div>

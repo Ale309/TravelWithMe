@@ -48,7 +48,7 @@ public class Trip {
     @NotNull
     private Double price;
     
-    private Integer days;
+    private Long days;
 
 	@OneToMany
 	private Set<Image> images;
@@ -129,11 +129,11 @@ public class Trip {
 		this.price = price;
 	}
 	
-	public Integer getDays() {
+	public Long getDays() {
 		return days;
 	}
 
-	public void setDays(Integer days) {
+	public void setDays(Long days) {
 		this.days = days;
 	}
 
