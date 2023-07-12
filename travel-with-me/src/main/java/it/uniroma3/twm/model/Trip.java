@@ -22,6 +22,7 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NotBlank
     private String category;
     
     @NotBlank
@@ -48,6 +49,7 @@ public class Trip {
     @NotNull
     private Double price;
     
+    @NotNull
     private Long days;
 
 	@OneToMany
