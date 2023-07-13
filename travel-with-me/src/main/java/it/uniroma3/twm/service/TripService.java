@@ -2,6 +2,7 @@ package it.uniroma3.twm.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,18 +34,23 @@ public class TripService {
 			for(MultipartFile file : multipartFile)
 				immagini.add(imageRepository.save(new Image(file.getBytes())));
 			trip.setImages(immagini);
-        }
-        catch (IOException e){}
+		}
+		catch (IOException e){}
+		
+		if(trip.getAvailability()==null)
+			trip.setAvailability(0);
+		if(trip.getPrice()==null)
+			trip.setPrice(0.00);
 
 		return 	this.tripRepository.save(trip);
 	}
-	
-    @Transactional
-    public void updateTrip(Trip trip) {
-        tripRepository.save(trip);
-    }
-    
-    @Transactional
+
+	@Transactional
+	public void updateTrip(Trip trip) {
+		tripRepository.save(trip);
+	}
+
+	@Transactional
 	public Trip findById(Long id) {
 		return this.tripRepository.findById(id).orElse(null);
 	}
@@ -57,59 +63,58 @@ public class TripService {
 		return this.tripRepository.save(trip);
 	}
 
-	public List<Trip> findByCategory(String category) {
-		return this.tripRepository.findByCategory(category);
+	public List<Trip> searchTrips(String category, String origin, String destination, LocalDate departureDate, LocalDate returnDate) {
+		
+		if (!category.isEmpty() && origin.isEmpty() && destination.isEmpty() && departureDate == null && returnDate == null) {
+			return this.tripRepository.findByCategory(category);
+		} else
+			if (category.isEmpty() && !origin.isEmpty() && destination.isEmpty() && departureDate == null && returnDate == null) {
+				return this.tripRepository.findByOrigin(origin);
+		} else
+			if (!category.isEmpty() && !origin.isEmpty() && destination.isEmpty() && departureDate == null && returnDate == null) {
+				return this.tripRepository.findByCategoryAndOrigin(category, origin);
+		} else 
+			if (!category.isEmpty() && !origin.isEmpty() && !destination.isEmpty() && departureDate == null && returnDate == null) {
+				return this.tripRepository.findByCategoryAndOriginAndDestination(category, origin, destination);
+		} else 
+			if (!category.isEmpty() && !origin.isEmpty() && destination.isEmpty() && departureDate != null && returnDate == null) {
+				return this.tripRepository.findByCategoryAndOriginAndDeparturedate(category, origin, departureDate);
+		} else 
+			if (!category.isEmpty() && !origin.isEmpty() && !destination.isEmpty() && departureDate != null && returnDate == null) {
+				return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departureDate);
+		} else 
+			if (!category.isEmpty() && !origin.isEmpty() && !destination.isEmpty() && departureDate != null && returnDate != null) {
+				return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(category, origin, destination, departureDate, returnDate);
+		} else {
+			return Collections.emptyList(); // Nessun parametro di ricerca fornito
+		}
 	}
-	
-	public List<Trip> findByOrigin(String origin) {
-		return this.tripRepository.findByOrigin(origin);
-	}
-	
-	public List<Trip> findByCategoryAndOrigin(String category, String origin) {
-		return this.tripRepository.findByCategoryAndOrigin(category, origin);
-	}
-	
-	public List<Trip> findByCategoryAndOriginAndDestination(String category, String origin, String destination) {
-		return this.tripRepository.findByCategoryAndOriginAndDestination(category, origin, destination);
-	}
-	
-	public List<Trip> findByCategoryAndOriginAndDeparturedate(String category, String origin, LocalDate departuredate) {
-		return this.tripRepository.findByCategoryAndOriginAndDeparturedate(category, origin, departuredate);
-	}
-	
-	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedate(String category, String origin, String destination, LocalDate departuredate) {
-		return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departuredate);
-	}
-	
-	public List<Trip> findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(String category, String origin, String destination, LocalDate departuredate, LocalDate returndate) {
-		return this.tripRepository.findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(category, origin, destination, departuredate, returndate);
-	}
-	
+
 	public String function(Model model, Trip trip, String username){
-        model.addAttribute("trip", trip);
-        if(username != null && this.alreadyReviewed(trip.getReviews(),username))
-            model.addAttribute("hasNotAlredyCommented", false);
-        else
-            model.addAttribute("hasNotAlreadyCommented", true);
-        model.addAttribute("review", new Review());
-        model.addAttribute("reviews", trip.getReviews());
-        model.addAttribute("hasReviews", !trip.getReviews().isEmpty());
+		model.addAttribute("trip", trip);
+		if(username != null && this.alreadyReviewed(trip.getReviews(),username))
+			model.addAttribute("hasNotAlredyCommented", false);
+		else
+			model.addAttribute("hasNotAlreadyCommented", true);
+		model.addAttribute("review", new Review());
+		model.addAttribute("reviews", trip.getReviews());
+		model.addAttribute("hasReviews", !trip.getReviews().isEmpty());
 
-        return "trip.html";
-    }
+		return "trip.html";
+	}
 
-    @Transactional
-    public boolean alreadyReviewed(Set<Review> reviews,String username){
-        if(reviews != null)
-            for(Review rev : reviews)
-                if(rev.getUsername().equals(username))
-                    return true;
-        return false;
-    }
+	@Transactional
+	public boolean alreadyReviewed(Set<Review> reviews,String username){
+		if(reviews != null)
+			for(Review rev : reviews)
+				if(rev.getUsername().equals(username))
+					return true;
+		return false;
+	}
 
 
-   public long count() {
-        return tripRepository.count();
-    }
+	public long count() {
+		return tripRepository.count();
+	}
 
 }

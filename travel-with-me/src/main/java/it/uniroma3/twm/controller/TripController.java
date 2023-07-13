@@ -2,6 +2,7 @@ package it.uniroma3.twm.controller;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,6 @@ public class TripController {
 			model.addAttribute("review",new Review());
 			model.addAttribute("reviews",trip.getReviews());
 			model.addAttribute("hasReviews",!trip.getReviews().isEmpty());
-			
-			model.addAttribute("user");
 
 			if(this.globalController.getUser() != null && this.globalController.getUser().getUsername() != null && this.tripService.alreadyReviewed(trip.getReviews(),this.globalController.getUser().getUsername()))
 	            model.addAttribute("hasNotAlreadyCommented", false);
@@ -84,7 +83,7 @@ public class TripController {
 
 	@GetMapping("/trips")
 	public String getTrips(Model model) {
-		model.addAttribute("numtrips",tripService.count());
+		model.addAttribute("numtrips",this.tripService.count());
 		model.addAttribute("trips", this.tripService.findAllTrip());
 		return "trips.html";
 	}
@@ -93,7 +92,7 @@ public class TripController {
 	public String formUpdateTrip(@PathVariable("id") Long id, Model model) {
 		Trip trip = this.tripService.findById(id);
 		if(trip != null) {
-			model.addAttribute("trip", tripService.findById(id));
+			model.addAttribute("trip", this.tripService.findById(id));
 			
 		}else {
 			return "error.html";
@@ -105,7 +104,7 @@ public class TripController {
 	@PostMapping(value="/admin/changeDescription/{id}")
 	public String changeDescription(@PathVariable("id") Long id, @RequestParam("newDescription") String newDescription, Model model) {
 		if(newDescription!=null) {
-			Trip trip = tripService.findById(id);
+			Trip trip = this.tripService.findById(id);
 			trip.setDescription(newDescription);
 			this.tripService.saveTrip(trip);
 			model.addAttribute("trip",trip);
@@ -116,7 +115,7 @@ public class TripController {
 	@PostMapping(value="/admin/changePrice/{id}")
 	public String changePrice(@PathVariable("id") Long id, @RequestParam("newPrice") Double newPrice, Model model) {
 		if(newPrice!=null) {
-			Trip trip = tripService.findById(id);
+			Trip trip = this.tripService.findById(id);
 			trip.setPrice(newPrice);
 			this.tripService.saveTrip(trip);
 			model.addAttribute("trip",trip);
@@ -124,10 +123,10 @@ public class TripController {
 		return "admin/formUpdateTrip.html";
 	}
 	
-	@PostMapping(value="/admin/changeAvailablity/{id}")
+	@PostMapping(value="/admin/changeAvailability/{id}")
 	public String changeAvailability(@PathVariable("id") Long id, @RequestParam("newAvailability") Integer newAvailability, Model model) {
 		if(newAvailability!=null) {
-			Trip trip = tripService.findById(id);
+			Trip trip = this.tripService.findById(id);
 			trip.setAvailability(newAvailability);
 			this.tripService.saveTrip(trip);
 			model.addAttribute("trip",trip);
@@ -136,77 +135,23 @@ public class TripController {
 	}
 
 	@GetMapping("/searchTrip")
-	public String formSearchTrip() {
+	public String formSearchTrip(Model model) {
+		model.addAttribute("newTrip", new Trip());
 		return "formSearchTrip";
 	}
 	
 	@PostMapping("/findTrip")
 	public String searchTrip(Model model,
-			@RequestParam(required = false) String category,
-			@RequestParam(required = false) String origin,
-			@RequestParam(required = false) String destination,
-			@RequestParam(required = false) LocalDate departuredate,
-			@RequestParam(required = false) LocalDate returndate) {
+			@RequestParam(name="category", required = false) String category,
+			@RequestParam(name="origin", required = false) String origin,
+			@RequestParam(name="destination", required = false) String destination,
+			@RequestParam(name="departuredate", required = false) LocalDate departuredate,
+			@RequestParam(name="returndate", required = false) LocalDate returndate) {
 		
-		if(category!=null && origin==null && destination==null && departuredate==null && returndate==null) {
-			model.addAttribute("trips", this.tripService.findByCategory(category));
-		}else
-			if(category==null && origin!=null && destination==null && departuredate==null && returndate==null){
-			model.addAttribute("trips", this.tripService.findByOrigin(category));
-		}else
-			if(category!=null && origin!=null && destination==null && departuredate==null && returndate==null){
-			model.addAttribute("trips", this.tripService.findByCategoryAndOrigin(category, origin));
-		}else
-			if(category!=null && origin!=null && destination!=null && departuredate==null && returndate==null){
-			model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestination(category, origin, destination));
-		}else
-			if(category!=null && origin!=null && destination==null && departuredate!=null && returndate==null){
-			model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDeparturedate(category, origin, departuredate));
-		}else
-			if(category!=null && origin!=null && destination!=null && departuredate!=null && returndate==null){
-			model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departuredate));
-		}else
-			if(category!=null && origin!=null && destination!=null && departuredate!=null && returndate!=null){
-			model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestinationAndDeparturedateAndReturndate(category, origin, destination, departuredate, returndate));
-		}
-		return "trips.html";
-	}
+		List<Trip> trips = this.tripService.searchTrips(category, origin, destination, departuredate, returndate);
+	    model.addAttribute("trips", trips);
 
-	@PostMapping("/searchTripsByCategory")
-	public String searchTripsByCategory(Model model, @RequestParam String category) {
-		model.addAttribute("trips", this.tripService.findByCategory(category));
-		return "trips.html";
+		return "foundTrips.html";
 	}
-	
-	@PostMapping("/searchTripsByOrigin")
-	public String searchTripsByOrigin(Model model, @RequestParam String origin) {
-		model.addAttribute("trips", this.tripService.findByOrigin(origin));
-		return "trips.html";
-	}
-	
-	@PostMapping("/searchTripsByCategoryAndOrigin")
-	public String searchTripsByCategoryAndOrigin(Model model, @RequestParam String category, @RequestParam String origin) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOrigin(category, origin));
-		return "trips.html";
-	}
-	
-	@PostMapping("/searchTripsByCategoryAndOriginAndDestination")
-	public String searchTripsByCategoryAndOriginAndDestination(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam String destination) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestination(category, origin, destination));
-		return "trips.html";
-	}
-	
-	@PostMapping("/searchTripsByCategoryAndOriginAndDateofdeparture")
-	public String searchTripsByCategoryAndOriginAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam LocalDate departuredate) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDeparturedate(category, origin, departuredate));
-		return "trips.html";
-	}
-	
-	@PostMapping("/searchTripsByCategoryAndOriginAndDestinationAndDateofdeparture")
-	public String searchTripsByCategoryAndOriginAndDestinationAndDateofdeparture(Model model, @RequestParam String category, @RequestParam String origin, @RequestParam String destination, @RequestParam LocalDate departuredate) {
-		model.addAttribute("trips", this.tripService.findByCategoryAndOriginAndDestinationAndDeparturedate(category, origin, destination, departuredate));
-		return "trips.html";
-	}
-
 
 }

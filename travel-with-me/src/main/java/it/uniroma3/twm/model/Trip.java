@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Trip {
@@ -43,10 +44,10 @@ public class Trip {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returndate;
 
-	@NotNull
+	@PositiveOrZero
     private Integer availability;
     
-    @NotNull
+    @PositiveOrZero
     private Double price;
     
     private Long days;

@@ -29,8 +29,8 @@
 			</nav>
 		</header>
 		<section>
-			<h1>Elenco Viaggi</h1>
-			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono viaggi nel sistema</div>
+			<h1>Results:</h1>
+			<div th:if="${trips==null || trips.isEmpty()}">There are no trips</div>
 			<ul>
 				<li th:each="trip : ${trips}">
 						<div>
@@ -57,9 +57,6 @@
 						<div>
 							<span>Price: <span th:text="${trip.price}">...</span></span><span> EUR</span>
 						</div>
-						<button sec:authorize="hasAuthority('ADMIN')">
-               				<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update this trip</a>
-                		</button>
 						<button>
 							<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
 						</button>

@@ -30,8 +30,7 @@
 					</div>
 					<div>
 						<span>On <span th:text="${reservation.dateofreservation}">...</span></span>
-						<span>the user <span th:text="${reservation.getUser().getUsername() + 
-						'(' + ${reservation.getUser().getName()} + ',' + ${reservation.getUser().getSurname()} ')'}">...</span></span>
+						<span>the user <span th:text="${reservation.getUser().username + '(' + reservation.getUser().name + ',' + reservation.getUser().surname + ')'}">...</span></span>
 						<span>has booked the following trip :</span>
 					</div>
 					<div>
@@ -53,7 +52,7 @@
 						<span>Days: <span th:text="${reservation.getTrip().days}">...</span></span>
 					</div>
 					<button>
-						<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
+						<a th:href="@{'/trip' + '/' + ${reservation.getTrip().id}}">Open for more details of this trip</a>
 					</button>
 				</li>
 			</ul>

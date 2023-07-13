@@ -34,27 +34,27 @@
 					</div>
   					<div>
 						<label>Category:</label>
-						<span><input type="text" th:field="${trip.category}"/></span>
+						<span><input type="text" th:field="${trip.category}" required /></span>
 						<span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
 					</div>
 					<div>
 						<label>From:</label>
-						<span><input type="text" th:field="${trip.origin}"/></span>
+						<span><input type="text" th:field="${trip.origin}" required /></span>
 						<span th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></span>
 					</div>
 					<div>
 						<label>To:</label>
-						<span><input type="text" th:field="${trip.destination}"/></span>
+						<span><input type="text" th:field="${trip.destination}" required /></span>
 						<span th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></span>
 					</div>
 					<div>
 						<label>Departure date:</label>
-						<span><input type="date" id="departureDate" th:field="${trip.departuredate}"/></span>
+						<span><input type="date" id="departureDate" th:field="${trip.departuredate}" required /></span>
 						<span th:if="${#fields.hasErrors('departuredate')}" th:errors="*{departuredate}"></span>
 					</div>
 					<div>
 						<label>Return date:</label>
-						<span><input type="date" id="returnDate" th:field="${trip.returndate}"/></span>
+						<span><input type="date" id="returnDate" th:field="${trip.returndate}" required /></span>
 						<span th:if="${#fields.hasErrors('returndate')}" th:errors="*{returndate}"></span>
 					</div>
 					<div>
@@ -64,12 +64,12 @@
 					</div>
 					<div>
 						<label>Availability:</label>
-						<span><input type="text" th:field="${trip.availability}"/></span>
+						<span><input type="text" th:field="${trip.availability}" min="0" /></span>
 						<span th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}"></span>
 					</div>
 					<div>
 						<label>Price:</label>
-						<span><input type="text" th:field="${trip.price}"/></span>
+						<span><input type="text" th:field="${trip.price}" min="0" step="0.01"/></span>
 						<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
 					</div>
 					<div>

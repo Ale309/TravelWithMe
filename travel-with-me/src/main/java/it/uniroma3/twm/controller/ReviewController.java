@@ -31,11 +31,11 @@ public class ReviewController {
 
 	@PostMapping("/user/uploadReview/{tripId}")
 	public String newReview(Model model, @Valid @ModelAttribute("review") Review review, BindingResult bindingResult, @PathVariable("tripId") Long id) {
+		review.setUsername(this.globalController.getUser().getUsername());
 		this.reviewValidator.validate(review,bindingResult);
 		if(!bindingResult.hasErrors()) {
 			Trip trip = this.tripService.findById(id);
 			if(this.globalController.getUser() != null && !trip.getReviews().contains(review)){
-				review.setUsername(this.globalController.getUser().getUsername());
 				this.reviewService.saveReview(review);
 				trip.getReviews().add(review);
 			}
@@ -43,6 +43,14 @@ public class ReviewController {
 			
 			return this.tripService.function(model, trip, this.globalController.getUser().getUsername());
 		}else
+		System.out.println(review.getUsername());
+		System.out.println(review.getTitle());
+		System.out.println(review.getDescription());
+		System.out.println(review.getRating());
+		System.out.println(review.getId());
+		System.out.println(bindingResult.getAllErrors());
+
+
 			return "error.html";
 	}
 

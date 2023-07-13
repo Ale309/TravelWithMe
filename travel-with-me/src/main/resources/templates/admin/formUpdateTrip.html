@@ -34,7 +34,7 @@
         		</div>
         		<form th:action="@{'/admin/updateTripImages/' + ${trip.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
 					<div>
-						<label>Aggiungi immagini:</label> <span><input type="file" name="tripImage" multiple /></span>
+						<label>Aggiungi immagini:</label> <span><input type="file" name="tripImage" multiple required/></span>
 					</div>
 					<div>
 						<span><button type="submit">Conferma</button></span>
@@ -58,42 +58,66 @@
 				<div>
 					<span>Days: </span><span th:text="${trip.days}">...</span>
 				</div>
-				<div>
+				<div th:if="${trip.description}">
 					<span>Description: </span><span th:text="${trip.description}">...</span>
 				</div>
-				<form th:action="@{'/admin/changeDescription/' + ${trip.id}}" method="POST">
-					<div>
-						<label>New Description: </label><span><input type="text" name="newDescription"/></span>
-					</div>
-					<div>
+				<div th:if="${trip.description}">
+					<form th:action="@{'/admin/changeDescription/' + ${trip.id}}" method="POST">
+							<label>New Description: </label><span><input type="text" name="newDescription"/></span>
+							<span><button type="submit">Change</button></span>
+					</form>
+				</div>
+				
+				<div>
+					<span>Price: </span><span th:text="${trip.price}">...</span> EUR
+				</div>
+				<form th:action="@{'/admin/changePrice/' + ${trip.id}}" method="POST" onsubmit="return validatePrice();">
+						<label>New price: </label><span><input type="text" id="price" name="newPrice" min="0" step="0.01" required/></span>
 						<span><button type="submit">Change</button></span>
-					</div>
 				</form>
 				<div>
-					<span>Price: </span><span th:text="${trip.price}">...</span>
+					<span>Availability: </span><span th:text="${trip.availability}">...</span> Left
 				</div>
-				<form th:action="@{'/admin/changePrice/' + ${trip.id}}" method="POST">
-					<div>
-						<label>New price: </label><span><input type="text" name="newPrice"/></span>
-					</div>
-					<div>
+				<form th:action="@{'/admin/changeAvailability/' + ${trip.id}}" method="POST" onsubmit="return validateAv();">
+						<label>New Availability: </label><span><input type="text" id="availability" name="newAvailability" required/></span>
 						<span><button type="submit">Change</button></span>
-					</div>
 				</form>
-				<div>
-					<span>Availability: </span><span th:text="${trip.availability}">...</span>
-				</div>
-				<form th:action="@{'/admin/changeAvailability/' + ${trip.id}}" method="POST">
-					<div>
-						<label>New Availability: </label><span><input type="text" name="newAvailability"/></span>
-					</div>
-					<div>
-						<span><button type="submit">Change</button></span>
-					</div>
-				</form>
+				<script>
+				function validateAv() {
+        			var availability = document.getElementById('availability').value;
+        
+        			if (!Number.isInteger(Number(availability))) {
+            			alert('The availability must be an integer without decimals');
+            			return false;
+        			}
+
+        			if (parseInt(availability) < 0) {
+           				alert('The availability cannot be negative');
+            			return false;
+        			}
+    			}
+    			function validatePrice() {
+        			var price = parseFloat(document.getElementById('price').value);
+
+					if (isNaN(price)) {
+    					alert('The price must be a valid number');
+    					return false;
+					}
+					
+					if (price < 0) {
+					    alert('The price cannot be negative');
+					    return false;
+					}
+
+    			}
+    			
+				</script>
 			</div>
 			<div th:unless="${trip}">Non esiste	il viaggio
 			</div>
+			
+			
+			
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

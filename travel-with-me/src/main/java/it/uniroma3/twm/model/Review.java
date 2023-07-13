@@ -16,17 +16,16 @@ import jakarta.validation.constraints.NotNull;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
-    @NotBlank
+    private Long id;
+
     private String username;
 
     @NotBlank
     private String title;
 
+    @NotNull
     @Min(1)
     @Max(5)
-    @NotNull
     private Integer rating;
 
     @NotBlank

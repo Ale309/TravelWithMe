@@ -30,14 +30,37 @@
 		</header>
 		<section>
 			<h1>Find your Trip</h1>
-			<form th:action="@{/searchTrip}" method="POST">
-				<div>Category: <input type="text" th:value="${category}" name="category" /></div>
-				<div>From: <input type="text" th:value="${origin}" name="origin" /></div>
-				<div>To: <input type="text" th:value="${destination}" name="destination" /></div>
-				<div>Departure date: <input type="date" th:value="${departuredate}" name="departuredate" /></div>
-				<div>Return date: <input type="date" th:value="${returndate}" name="returndate" /></div>
-				<div><input type="submit" /></div>
+			<form th:action="@{/findTrip}" method="POST" onsubmit="return validateForm();">
+				<div>Category: <input type="text" id="category" name="category"/></div>
+				<div>From: <input type="text" id="origin" name="origin" /></div>
+				<div>To: <input type="text" id="destination" name="destination" /></div>
+				<div>Departure date: <input type="date" id="departuredate" name="departuredate" /></div>
+				<div>Return date: <input type="date" id="returndate" name="returndate" /></div>
+				<div>
+					<button type="submit">Search</button>
+				</div>
 			</form>
+			
+			<script>
+    			function validateForm() {
+        		var departureDate = document.getElementById('departuredate').value;
+        		var returnDate = document.getElementById('returndate').value;
+				var category = document.getElementById('category').value;
+    			var origin = document.getElementById('origin').value;
+    			var destination = document.getElementById('destination').value;
+    			
+    			if (category === "" && origin === "" && destination === "" && departureDate === "" && returnDate === "") {
+            		alert('Please fill in at least one field');
+            		return false;
+        			}
+    			
+        		if (returnDate < departureDate) {
+            		alert('The return date cannot be earlier than the departure date');
+           			return false;
+        			}
+    			}
+			</script>
+			
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI
