@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.twm.controller.validator.TripValidator;
 import it.uniroma3.twm.model.Review;
 import it.uniroma3.twm.model.Trip;
-import it.uniroma3.twm.service.ReservationService;
+import it.uniroma3.twm.service.SupportService;
 import it.uniroma3.twm.service.TripService;
 import jakarta.validation.Valid;
 
@@ -29,7 +29,7 @@ public class TripController {
 	private TripService tripService;
 	
 	@Autowired
-	private ReservationService reservationService;
+	private SupportService supportService;
 	
 	@Autowired 
 	private TripValidator tripValidator;
@@ -54,6 +54,14 @@ public class TripController {
 			return "error.html";
 		}
 	}
+	
+	@GetMapping("/admin/deleteTrip/{tripId}")
+	public String removeTrip(Model model, @PathVariable("tripId") Long tripId){
+		this.tripService.removeTrip(tripId);
+		model.addAttribute("numtrips",this.tripService.count());
+		model.addAttribute("trips", this.tripService.findAllTrip());
+		return "trips.html";
+	}
 
 	@GetMapping("/trip/{id}")
 	public String getTrip(@PathVariable("id") Long id, Model model) {
@@ -69,7 +77,7 @@ public class TripController {
 	        else
 	            model.addAttribute("hasNotAlreadyCommented", true);
 			
-			if(this.globalController.getUser() != null && this.globalController.getUser().getUsername() != null && this.reservationService.alreadyPartecipate(trip,this.globalController.getUser().getUsername()))
+			if(this.globalController.getUser() != null && this.globalController.getUser().getUsername() != null && this.supportService.alreadyPartecipate(trip,this.globalController.getUser().getUsername()))
 	            model.addAttribute("hasPartecipated", true);
 	        else
 	            model.addAttribute("hasPartecipated", false);

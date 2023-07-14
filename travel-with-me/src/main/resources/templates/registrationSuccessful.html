@@ -15,7 +15,6 @@
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<a href="/admin/reservations"><button>All Reservations</button></a>
 				</div>
-				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
 					<a href="/logout"><button>Logout</button></a>

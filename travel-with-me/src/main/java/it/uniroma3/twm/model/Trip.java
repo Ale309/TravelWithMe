@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,10 +53,10 @@ public class Trip {
     
     private Long days;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private Set<Image> images;
     
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
     private Set<Review> reviews;
 
     

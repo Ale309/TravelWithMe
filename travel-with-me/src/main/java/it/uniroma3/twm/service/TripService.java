@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.twm.model.Image;
+import it.uniroma3.twm.model.Reservation;
 import it.uniroma3.twm.model.Review;
 import it.uniroma3.twm.model.Trip;
 import it.uniroma3.twm.repository.ImageRepository;
+import it.uniroma3.twm.repository.ReservationRepository;
 import it.uniroma3.twm.repository.TripRepository;
 import jakarta.transaction.Transactional;
 
@@ -24,8 +26,18 @@ public class TripService {
 
 	@Autowired
 	private TripRepository tripRepository;
+	
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	@Autowired
+	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private SupportService supportService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Transactional
 	public Trip createNewTrip(Trip trip, MultipartFile[] multipartFile) {
@@ -50,7 +62,6 @@ public class TripService {
 		tripRepository.save(trip);
 	}
 
-	@Transactional
 	public Trip findById(Long id) {
 		return this.tripRepository.findById(id).orElse(null);
 	}
@@ -58,7 +69,8 @@ public class TripService {
 	public Iterable<Trip> findAllTrip(){
 		return this.tripRepository.findAll();
 	}
-
+	
+	@Transactional
 	public Trip saveTrip(Trip trip) {
 		return this.tripRepository.save(trip);
 	}
@@ -99,6 +111,11 @@ public class TripService {
 		model.addAttribute("review", new Review());
 		model.addAttribute("reviews", trip.getReviews());
 		model.addAttribute("hasReviews", !trip.getReviews().isEmpty());
+		
+		if(username != null && this.supportService.alreadyPartecipate(trip,username))
+            model.addAttribute("hasPartecipated", true);
+        else
+            model.addAttribute("hasPartecipated", false);
 
 		return "trip.html";
 	}
@@ -115,6 +132,22 @@ public class TripService {
 
 	public long count() {
 		return tripRepository.count();
+	}
+	
+	@Transactional
+	public void removeTrip(Long tripId) {
+		Trip trip = this.findById(tripId);
+		
+		for(Reservation res : this.supportService.findAllReservation()) {
+			if (res.getTrip().getId()==tripId) {
+				res.getUser().getReservation().remove(res);
+	        	this.userService.saveUser(res.getUser());
+	            this.reservationRepository.delete(res);
+			}
+		}
+		
+		this.tripRepository.delete(trip);
+
 	}
 
 }

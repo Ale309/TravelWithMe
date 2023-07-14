@@ -11,6 +11,7 @@ import it.uniroma3.twm.model.Reservation;
 import it.uniroma3.twm.model.User;
 import it.uniroma3.twm.service.CredentialsService;
 import it.uniroma3.twm.service.ReservationService;
+import it.uniroma3.twm.service.SupportService;
 import it.uniroma3.twm.service.TripService;
 
 @Controller
@@ -23,6 +24,9 @@ public class ReservationController {
 	private CredentialsService credentialsService;
 	
 	@Autowired
+	private SupportService supportService;
+	
+	@Autowired
 	private TripService tripService;
 	
 	@Autowired
@@ -31,7 +35,9 @@ public class ReservationController {
 	@GetMapping("/newReservation/{id}")
 	public String newReservation(@PathVariable("id") Long id, Model model) {
 		
-		model.addAttribute("reservation", this.reservationService.createNewReservation(id));
+		String username = this.globalController.getUser().getUsername();
+
+		model.addAttribute("reservation", this.reservationService.createNewReservation(id, username));
 		model.addAttribute("numtrips",this.tripService.count());
 		model.addAttribute("trips", this.tripService.findAllTrip());
 		return "trips.html";
@@ -65,14 +71,13 @@ public class ReservationController {
 	
 	@GetMapping("/admin/reservations")
 	public String getReservations(Model model) {
-		model.addAttribute("reservations", this.reservationService.findAllReservation());
+		model.addAttribute("reservations", this.supportService.findAllReservation());
 		return "/admin/Reservations.html";
 	}
 	
 	@GetMapping("/deleteReservation/{reservationId}")
 	public String removeReservation(Model model, @PathVariable("reservationId") Long reservationId) {
-		Reservation reservation = this.reservationService.findById(reservationId);
-		this.reservationService.deleteReservation(reservation);
-		return "/admin/reservations.html";
+		model.addAttribute("reservations", this.reservationService.deleteReservation(reservationId));
+		return "myReservations.html";
 	}
 }

@@ -38,4 +38,8 @@ public class ReviewService {
 		return this.reviewRepository.findById(id).orElse(null);
 	}
 	
+	public Iterable<Review> findAllReview(){
+		return this.reviewRepository.findAll();
+	}
+	
 }

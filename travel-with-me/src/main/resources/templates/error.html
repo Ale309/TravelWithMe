@@ -2,8 +2,7 @@
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>
-			Travel With Me
-		</title>
+ciccio		</title>
 			<link rel="stylesheet" href="/css/index.css" />
 	</head>
 	<body>
@@ -18,7 +17,6 @@
 				<div sec:authorize="hasAuthority('DEFAULT')">
 					<a href="/myReservations"><button>My reservations</button></a>
 				</div>
-				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
 					<a href="/logout"><button>Logout</button></a>
@@ -29,7 +27,7 @@
 			</nav>
 		</header>
 		<section>
-			There has been an error!
+			There has been an error generale!
 		</section>
 		<footer>
     		Made by MADALIN ALEXANDRU AVADANEI

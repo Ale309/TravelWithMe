@@ -18,7 +18,6 @@
 				<div sec:authorize="hasAuthority('DEFAULT')">
 					<a href="/myReservations"><button>My Reservations</button></a>
 				</div>
-				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
 					<a href="/logout"><button>Logout</button></a>
@@ -57,12 +56,17 @@
 						<div>
 							<span>Price: <span th:text="${trip.price}">...</span></span><span> EUR</span>
 						</div>
-						<button sec:authorize="hasAuthority('ADMIN')">
-               				<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update this trip</a>
-                		</button>
 						<button>
 							<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
 						</button>
+						<div sec:authorize="hasAuthority('ADMIN')">
+							<button>
+               					<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update</a>
+							</button>
+							<button>
+                       			<a th:href="@{'/admin/deleteTrip/' + ${trip.id}}">Delete</a>
+                			</button>
+						</div>
 				</li>
 			</ul>
 		</section>

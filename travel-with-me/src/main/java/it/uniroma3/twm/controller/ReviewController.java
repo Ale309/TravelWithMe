@@ -43,14 +43,6 @@ public class ReviewController {
 			
 			return this.tripService.function(model, trip, this.globalController.getUser().getUsername());
 		}else
-		System.out.println(review.getUsername());
-		System.out.println(review.getTitle());
-		System.out.println(review.getDescription());
-		System.out.println(review.getRating());
-		System.out.println(review.getId());
-		System.out.println(bindingResult.getAllErrors());
-
-
 			return "error.html";
 	}
 

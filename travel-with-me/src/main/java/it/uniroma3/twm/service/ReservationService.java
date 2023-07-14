@@ -1,11 +1,11 @@
 package it.uniroma3.twm.service;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.uniroma3.twm.controller.GlobalController;
 import it.uniroma3.twm.model.Credentials;
 import it.uniroma3.twm.model.Reservation;
 import it.uniroma3.twm.model.Trip;
@@ -15,9 +15,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ReservationService {
-	
-	@Autowired
-	private GlobalController globalController;
 	
 	@Autowired
 	private TripService tripService;
@@ -32,10 +29,8 @@ public class ReservationService {
 	private ReservationRepository reservationRepository;
 
 	@Transactional
-	public Reservation createNewReservation(Long id) {
+	public Reservation createNewReservation(Long id, String username) {
 		Reservation reservation = new Reservation();
-
-		String username = this.globalController.getUser().getUsername();
 		User user = new User();
 		for(Credentials cred : this.credentialsService.findAllCredentials()) {
 			if(cred.getUsername().equals(username)) {
@@ -59,13 +54,21 @@ public class ReservationService {
 		return this.reservationRepository.findById(id).orElse(null);
 	}
 
-	public Iterable<Reservation> findAllReservation() {
-		return this.reservationRepository.findAll();
-	}
-
 	@Transactional
-	public void deleteReservation(Reservation reservation) {
+	public Set<Reservation> deleteReservation(Long reservationId) {
+		Reservation reservation = this.findById(reservationId);
+		
+		User user = reservation.getUser();
+		
+		user.getReservation().remove(reservation);
+		this.userService.saveUser(user);
+		
+		reservation.getTrip().setAvailability(reservation.getTrip().getAvailability()+1);
+		this.tripService.saveTrip(reservation.getTrip());
+		
 		this.reservationRepository.delete(reservation);
+		
+		return user.getReservation();
 	}
 
 	@Transactional

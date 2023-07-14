@@ -15,7 +15,6 @@
 				<div>
 					<a href="/myReservations"><button>My reservations</button></a>
 				</div>
-				</div>
 				<div th:if="${userDetails}" class="login">
 					<span th:text="${userDetails.username}"></span>
 					<a href="/logout"><button>Logout</button></a>
@@ -54,6 +53,9 @@
 					<div>
 						<span>Days: <span th:text="${reservation.getTrip().days}">...</span></span>
 					</div>
+                    <button>
+						<a th:href="@{'/deleteReservation/' + ${reservation.id}}">Delete this reservation</a>
+					</button>
 					<button>
 						<a th:href="@{'/trip' + '/' + ${reservation.getTrip().id}}">See trip with details</a>
 					</button>
