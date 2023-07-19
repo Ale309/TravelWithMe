@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me</title>
+		<link rel="stylesheet" href="/css/registrationSuccessful.css" />
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div sec:authorize="hasAuthority('ADMIN')">
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/signin"><button>Login</button></a>
-				</div>
-			</nav>
+			<a href="/" class="logo">Travel with me</a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}" class="active" ><a href="/login">Login</a></li>
+			</ul>
 		</header>
+		
 		<section>
-			<h1>Congratulazioni ti sei registrato!</h1>
-			<div>
-				<span>Nome: </span>
-				<span th:text="${user.name}"></span>
-			</div>
-			<div>
-				<span>Cognome: </span>
-				<span th:text="${user.surname}"></span>
-			</div>
-			<div>
-				<span>Email: </span>
-				<span th:text="${user.email}"></span>
+			<div class="wrapper">
+				<h1>Registration successful!</h1>
+				<div>
+					<span>Name: </span>
+					<em><span th:text="${user.name}"></span></em>
+				</div>
+				<div>
+					<span>Surname: </span>
+					<em><span th:text="${user.surname}"></span></em>
+				</div>
+				<div>
+					<span>Email: </span>
+					<em><span th:text="${user.email}"></span></em>
+				</div>
+				<a href="/login"><button>Sign In now</button></a>
+
 			</div>
 		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		
+		
+		
+		
+		
+		
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
 	</body>
 </html>

@@ -1,39 +1,125 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me</title>
+		<link rel="stylesheet" href="/css/index.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+  		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div sec:authorize="hasAuthority('DEFAULT')">
-					<a href="/myReservations"><button>My reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/login"><button>Login</button></a>
-				</div>
-			</nav>
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="#" class="active">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li><a href="#feedbacks">Feedbacks</a></li>
+				<li><a href="#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
+			</ul>
 		</header>
-		<section>
-			<div>
-				<a href="/trips">Tutti i viaggi</a>
+		
+		<section class="home swiper" id="home">
+			<div class="swiper-wrapper">
+      			<div class="swiper-slide container">
+					<img src="/images/home1.jpg" alt="">
+					<div class="home-text">
+						<span>Discover now</span>
+						<h1>Explore the <br>Beautiful Beach <br>of Maldives</h1>
+						<a href="/searchTrip" class="btn">Explore</a>
+					</div>
+				 </div>
+				 <div class="swiper-slide container">
+					<img src="/images/home2.jpg" alt="">
+					<div class="home-text">
+						<span>Discover now</span>
+						<h1>Explore the <br>Beautiful Beach <br>of Bali</h1>
+						<a href="/searchTrip" class="btn">Explore</a>
+					</div>
+				 </div>
+				 <div class="swiper-slide container">
+					<img src="/images/home3.jpg" alt="">
+					<div class="home-text">
+						<span>Discover now</span>
+						<h1>Explore the <br>Beautiful Beach <br>of Hawaii</h1>
+						<a href="/searchTrip" class="btn">Explore</a>
+					</div>
+				 </div>
+    		</div>
+    		<div class="swiper-pagination"></div>
+		</section>
+		
+		<section class="feedbacks" id="feedbacks">
+			Here feedbacks
+		</section>
+		
+		<section class="footer" id="contacts">
+			<div class="footer-box">
+				<h2>Travel With Me</h2>
+				<p>Don't just get there, get there in style celebrating the journey and bringing new styles in travels.</p>
+				
+				<div class="social">
+					<i class='bx bxl-facebook' ></i>
+					<i class='bx bxl-twitter' ></i>
+					<i class='bx bxl-instagram' ></i>
+					<i class='bx bxl-tiktok' ></i>
+				</div>
 			</div>
-			<div>
-				<a href="/searchTrip">Book Now</a>
+			<div class="footer-box">
+				<h3>Offices</h3>
+				<li>Italy</li>
+				<li>Indonesia</li>
+				<li>U.S.A.</li>
+				<li>Romania</li>
+			</div>
+			<div class="footer-box">
+				<h3>Contact Us</h3>
+				<li>Madalin Alexandru</li>
+				<li>Avadanei</li>
+				<li>+39 3288212715</li>
+				<li>ale.avadanei@gmail.com</li>
 			</div>
 		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
+		
+		 <!-- Swiper JS -->
+  		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script>
+			//header scroll
+			let header = document.querySelector('header');
+			
+			window.addEventListener('scroll', () => {
+				header.classList.toggle('shadow', window.scrollY > 0);
+			});
+			
+			//Swiper
+  			var swiper = new Swiper(".home", {
+    			spaceBetween: 30,
+    			centeredSlides: true,
+    			autoplay: {
+      			delay: 2500,
+      			disableOnInteraction: false,
+    		},
+    		pagination: {
+      			el: ".swiper-pagination",
+      			clickable: true,
+    		},
+  			});
+		</script>
+
 	</body>
 </html>

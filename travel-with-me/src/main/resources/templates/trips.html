@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - Trips</title>
+		<link rel="stylesheet" href="/css/trips.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div sec:authorize="hasAuthority('ADMIN')">
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</div>
-				<div sec:authorize="hasAuthority('DEFAULT')">
-					<a href="/myReservations"><button>My Reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/login"><button>Login</button></a>
-				</div>
-			</nav>
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="/" class="active">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li><a href="#feedbacks">Feedbacks</a></li>
+				<li><a href="#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
+
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
+			</ul>
 		</header>
+		
 		<section>
-			<h1>Elenco Viaggi</h1>
+			<h1>Trips</h1>
 			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono viaggi nel sistema</div>
 			<ul>
 				<li th:each="trip : ${trips}">
@@ -70,8 +73,53 @@
 				</li>
 			</ul>
 		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		
+		<!-- Swiper JS -->
+  		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script>
+			//Validation
+			function validateForm() {
+        		var departureDate = document.getElementById('departuredate').value;
+        		var returnDate = document.getElementById('returndate').value;
+				var category = document.getElementById('category').value;
+    			var origin = document.getElementById('origin').value;
+    			var destination = document.getElementById('destination').value;
+    			
+    			if (category === "" && origin === "" && destination === "" && departureDate === "" && returnDate === "") {
+            		alert('Please fill in at least one field');
+            		return false;
+        			}
+    			
+        		if (returnDate < departureDate) {
+            		alert('The return date cannot be earlier than the departure date');
+           			return false;
+        			}
+    		}
+    		
+			// Header scroll
+			let header = document.querySelector('header');
+			
+			window.addEventListener('scroll', () => {
+				header.classList.toggle('shadow', window.scrollY > 0);
+			});
+			
+			// Swiper
+  			var swiper = new Swiper(".home", {
+    			spaceBetween: 30,
+    			centeredSlides: true,
+    			autoplay: {
+      			delay: 2500,
+      			disableOnInteraction: false,
+    		},
+    		pagination: {
+      			el: ".swiper-pagination",
+      			clickable: true,
+    		},
+  			});
+  			
+  			
+		</script>
+
 	</body>
 </html>

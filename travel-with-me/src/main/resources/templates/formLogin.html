@@ -1,43 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - Sign In</title>
+		<link rel="stylesheet" href="/css/formLogin.css" />
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-			</nav>
+			<a href="/" class="logo">Travel with me</a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}" class="active" ><a href="/login">Login</a></li>
+			</ul>
 		</header>
+		
+		
 		<section>
-			<h1>Login</h1>
+		<div class="wrapper">
 			<form th:action="@{/login}" method="POST">
-				<div>
-					<span>Username:</span>
-					<span><input name="username" type="text" required /></span>
+				<h1>Sign In</h1>
+				<div class="input-box">
+					<input name="username" type="text" placeholder="Username" required/>
+					<i class='bx bxs-user'></i>
 				</div>
-				<div>
-					<span>Password:</span>
-					<span><input name="password" type="password" required /></span>
+				<div class="input-box">
+					<input name="password" type="password" placeholder="Password" required />
+					<i class='bx bxs-lock-alt' ></i>
 				</div>
-				<div>
-					<span th:if="${param.error != null}">Username o password errati</span>
+				<div class="remember">
+					<label><input type="checkbox">Remember me</label>
 				</div>
-				<div>
-					<span><button type="submit">Sign In</button></span>
+				<div th:if="${param.error != null}" class="wrong">
+					<i class='bx bxs-error'></i>
+					<span>Wrong username or password! Try again</span>
+				</div>
+				
+				<button type="submit">Login</button>
+				<div class="register-link">
+					<p>Don't have an account? <a th:href="@{/register}">Register</a></p>
 				</div>
 			</form>
-			<button>
-				<a th:href="@{/register}" th:text="Registrati">Registrati</a>
-			</button>
-		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		</div>
+	</section>
+	
+	<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
 	</body>
 </html>

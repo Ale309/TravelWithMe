@@ -155,10 +155,8 @@ public class TripController {
 			@RequestParam(name="destination", required = false) String destination,
 			@RequestParam(name="departuredate", required = false) LocalDate departuredate,
 			@RequestParam(name="returndate", required = false) LocalDate returndate) {
-		
 		List<Trip> trips = this.tripService.searchTrips(category, origin, destination, departuredate, returndate);
 	    model.addAttribute("trips", trips);
-
 		return "foundTrips.html";
 	}
 
