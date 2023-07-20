@@ -1,90 +1,118 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - Update Trip</title>
+		<link rel="stylesheet" href="/css/formUpdateTrip.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+  		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div>
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/signin"><button>Login</button></a>
-				</div>
-			</nav>
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>				
+				<li><a href="/admin/formNewTrip">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
+			</ul>
 		</header>
-		<section>
-			<h1>Dettagli Viaggio</h1>
-			<div th:if="${trip}">
-				<div th:each="image: ${trip.images}">
-            		<img th:src="@{'/image/' + ${image.id}}">
-            		<button>
-						<a th:href="'/admin/deleteImage/' + ${trip.id} + '/' + ${image.id}">Remove</a>
-					</button>
-        		</div>
-        		<form th:action="@{'/admin/updateTripImages/' + ${trip.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
+		
+		<div th:if="${trip}">
+			<div th:if="${trip.images}">
+				<section class="home swiper" id="home">
+					<div class="swiper-wrapper">
+		      			<div class="swiper-slide container"  th:each="image: ${trip.images}">
+							<img th:src="@{'/image/' + ${image.id}}">
+							<a class="btn" th:href="'/admin/deleteImage/' + ${trip.id} + '/' + ${image.id}">Remove</a>
+						 </div>
+		    		</div>
+		    		<div class="swiper-pagination"></div>
+				</section>
+			</div>
+			
+			<form th:action="@{'/admin/updateTripImages/' + ${trip.id}}" method="POST" th:object="${trip}" enctype="multipart/form-data">
+				<div>
+					<label>Add images:</label> <span><input type="file" name="tripImage" multiple required/></span>
+				</div>
+				<div>
+					<span><button type="submit">Add</button></span>
+				</div>
+			</form>
+			
+			<div class="fascia">
+				<h1><span class="hide">-----</span> Trip details:</h1>
+			</div>
+			<section class="cont">
+				<div class="a1">
 					<div>
-						<label>Aggiungi immagini:</label> <span><input type="file" name="tripImage" multiple required/></span>
+						<span class="grosso">Category: </span><span th:text="${trip.category}">...</span>
 					</div>
 					<div>
-						<span><button type="submit">Conferma</button></span>
+						<span class="grosso">From: </span><span th:text="${trip.origin}">...</span>
 					</div>
-				</form>
-				<div>
-					<span>Category: </span><span th:text="${trip.category}">...</span>
-				</div>
-				<div>
-					<span>From: </span><span th:text="${trip.origin}">...</span>
-				</div>
-				<div>
-					<span>To: </span><span th:text="${trip.destination}">...</span>
-				</div>
-				<div>
-					<span>Departure Date: </span><span th:text="${trip.departuredate}">...</span>
-				</div>
-				<div>
-					<span>Return Date: </span><span th:text="${trip.returndate}">...</span>
-				</div>
-				<div>
-					<span>Days: </span><span th:text="${trip.days}">...</span>
-				</div>
-				<div th:if="${trip.description}">
-					<span>Description: </span><span th:text="${trip.description}">...</span>
-				</div>
-				<div th:if="${trip.description}">
+					<div>
+						<span class="grosso">To: </span><span th:text="${trip.destination}">...</span>
+					</div>
+					<div>
+						<span class="grosso">Departure date: </span><span th:text="${trip.departuredate}">...</span>
+					</div>
+					<div>
+						<span class="grosso">Return date: </span><span th:text="${trip.returndate}">...</span>
+					</div>
+					<div th:unless="${trip.description.isEmpty()}">
+						<span class="grosso">Description: </span><span th:text="${trip.description}">...</span>
+					</div>
 					<form th:action="@{'/admin/changeDescription/' + ${trip.id}}" method="POST">
-							<label>New Description: </label><span><input type="text" name="newDescription"/></span>
-							<span><button type="submit">Change</button></span>
+						<span class="grosso">New Description: </span><span><input type="text" name="newDescription"/></span>
+						<span><button type="submit">Change</button></span>
 					</form>
-				</div>
+					<div>
+						<span>The trip lasts </span><span th:text="${trip.days}">...</span><span> days. </span>
+					</div>
+					<div>
+						<span class="grosso">Price: </span><span th:text="${trip.price}">...</span><span> EUR</span>
+					</div>
+					<form th:action="@{'/admin/changePrice/' + ${trip.id}}" method="POST" onsubmit="return validatePrice();">
+						<span class="grosso">New price: </span><span><input type="text" id="price" name="newPrice" min="0" step="0.01" required/></span>
+						<span><button type="submit">Change</button></span>
+					</form>
+					<div>
+						<span class="grosso">Availability: </span><span th:text="${trip.availability}">...</span> Left
+					</div>
+					<form th:action="@{'/admin/changeAvailability/' + ${trip.id}}" method="POST" onsubmit="return validateAv();">
+						<span class="grosso">New Availability: </span><span><input type="text" id="availability" name="newAvailability" required/></span>
+						<span><button type="submit">Change</button></span>
+					</form>
+			</section>
 				
-				<div>
-					<span>Price: </span><span th:text="${trip.price}">...</span> EUR
-				</div>
-				<form th:action="@{'/admin/changePrice/' + ${trip.id}}" method="POST" onsubmit="return validatePrice();">
-						<label>New price: </label><span><input type="text" id="price" name="newPrice" min="0" step="0.01" required/></span>
-						<span><button type="submit">Change</button></span>
-				</form>
-				<div>
-					<span>Availability: </span><span th:text="${trip.availability}">...</span> Left
-				</div>
-				<form th:action="@{'/admin/changeAvailability/' + ${trip.id}}" method="POST" onsubmit="return validateAv();">
-						<label>New Availability: </label><span><input type="text" id="availability" name="newAvailability" required/></span>
-						<span><button type="submit">Change</button></span>
-				</form>
-				<script>
-				function validateAv() {
+		</div>
+		<div th:unless="${trip}">The trip doesn't exist.</div>
+
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
+		
+		 <!-- Swiper JS -->
+  		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script>
+			//validate
+			function validateAv() {
         			var availability = document.getElementById('availability').value;
         
         			if (!Number.isInteger(Number(availability))) {
@@ -111,17 +139,20 @@
 					}
 
     			}
-    			
-				</script>
-			</div>
-			<div th:unless="${trip}">Non esiste	il viaggio
-			</div>
-			
-			
-			
-		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+			//Swiper
+  			var swiper = new Swiper(".home", {
+    			spaceBetween: 30,
+    			centeredSlides: true,
+    			autoplay: {
+      			delay: 2500,
+      			disableOnInteraction: false,
+    		},
+    		pagination: {
+      			el: ".swiper-pagination",
+      			clickable: true,
+    		},
+  			});
+		</script>
+
 	</body>
 </html>

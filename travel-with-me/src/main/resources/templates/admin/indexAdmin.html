@@ -22,7 +22,7 @@
 				<li><a href="/admin/formNewTrip">+ New trip</a></li>
 				<li><a href="#feedbacks">Feedbacks</a></li>
 				<li><a href="#contacts">Contacts</a></li>
-				<li><a href="/reservations">All reservations</a></li>
+				<li><a href="/admin/reservations">All reservations</a></li>
 				<li th:if="${userDetails}">Admin: <em><span th:text="${userDetails.username}"></span></em></li>
 				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
 				<li th:unless="${userDetails}"><a href="/login">Login</a></li>

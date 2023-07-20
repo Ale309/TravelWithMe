@@ -16,63 +16,61 @@
 			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
 			
 			<ul class="navbar">
-				<li><a href="/" class="active">Home</a></li>
+				<li><a href="/">Home</a></li>
 				<li><a href="/searchTrip">Book</a></li>
-				<li><a href="/trips">Trips</a></li>
-				<li><a href="#feedbacks">Feedbacks</a></li>
-				<li><a href="#contacts">Contacts</a></li>
+				<li><a href="/trips" class="active" >Trips</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/formNewTrip">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
 				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
 				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
-
 				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
 				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
 				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
 			</ul>
 		</header>
 		
-		<section>
-			<h1>Trips</h1>
-			<div th:if="${trips==null || trips.isEmpty()}">Non ci sono viaggi nel sistema</div>
-			<ul>
-				<li th:each="trip : ${trips}">
+		<h1>Our Trips:</h1>
+		<div th:if="${trips==null || trips.isEmpty()}">There are no trips.</div>
+		<div class="trips-container">
+			<div th:each="trip : ${trips}">
+				<div class="box">
+					<div class="box1">
 						<div>
-							------------------------------------------------------------
-						</div>
-						<div th:each="image: ${trip.images}">
-            				<img th:src="@{'/image/' + ${image.id}}">
-        				</div>
-						<div>
-							<span>Category: <span th:text="${trip.category}">...</span></span>
+							<span><span class="grosso">Category: </span><span th:text="${trip.category}">...</span></span>
 						</div>
 						<div>
-							<span>From: <span th:text="${trip.origin}">...</span></span>
+							<span><span class="grosso">From: </span><span th:text="${trip.origin}">...</span></span>
 						</div>
 						<div>
-							<span>To: <span th:text="${trip.destination}">...</span></span>
+							<span><span class="grosso">To: </span><span th:text="${trip.destination}">...</span></span>
 						</div>
 						<div>
-							<span>Departure date: <span th:text="${trip.departuredate}">...</span></span>
+							<span><span class="grosso">Departure date: </span><span th:text="${trip.departuredate}">...</span></span>
 						</div>
 						<div>
-							<span>Return date: <span th:text="${trip.returndate}">...</span></span>
+							<span><span class="grosso">Return date: </span><span th:text="${trip.returndate}">...</span></span>
 						</div>
 						<div>
-							<span>Price: <span th:text="${trip.price}">...</span></span><span> EUR</span>
+							<span><span class="grosso">Price: </span><span th:text="${trip.price}">...</span></span><span> EUR</span>
 						</div>
-						<button>
-							<a th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
-						</button>
-						<div sec:authorize="hasAuthority('ADMIN')">
-							<button>
-               					<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update</a>
-							</button>
-							<button>
-                       			<a th:href="@{'/admin/deleteTrip/' + ${trip.id}}">Delete</a>
-                			</button>
+						<div>
+							<a class="btn" th:href="@{'/trip' + '/' + ${trip.id}}">Open for more details</a>
+               				<a sec:authorize="hasAuthority('ADMIN')" class="btn" th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update</a>
+                       		<a sec:authorize="hasAuthority('ADMIN')" class="btn" th:href="@{'/admin/deleteTrip/' + ${trip.id}}">Delete</a>
 						</div>
-				</li>
-			</ul>
-		</section>
+					</div>
+					<div class="box-img">
+						<img th:unless="${trip.getImages().isEmpty()}" th:src="@{'/image/' + ${trip.getImages().stream().findFirst().orElse(null).id}}">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
 		
 		<!-- Swiper JS -->
   		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>

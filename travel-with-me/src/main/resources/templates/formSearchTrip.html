@@ -16,11 +16,12 @@
 			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
 			
 			<ul class="navbar">
-				<li><a href="/" class="active">Home</a></li>
-				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip" class="active" >Book</a></li>
 				<li><a href="/trips">Trips</a></li>
-				<li><a href="#feedbacks">Feedbacks</a></li>
-				<li><a href="#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/formNewTrip">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
 				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
 				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
 

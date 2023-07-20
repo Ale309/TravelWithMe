@@ -1,64 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - All Reservations</title>
+		<link rel="stylesheet" href="/css/myReservations.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/signin"><button>Login</button></a>
-				</div>
-			</nav>
-		</header>
-		<section>
-			<div th:if="${reservations==null || reservations.isEmpty()}">There are no reservations</div>
-			<ul>
-				<li th:each="reservation : ${reservations}">
-					<div>
-						------------------------------------------------------------
-					</div>
-					<div>
-						<span>On <span th:text="${reservation.dateofreservation}">...</span></span>
-						<span>the user <span th:text="${reservation.getUser().name + ' ' + reservation.getUser().surname + ' ' + '(' + reservation.getUser().username + ')'}">...</span></span>
-						<span>has booked the following trip :</span>
-					</div>
-					<div>
-						<span>Category: <span th:text="${reservation.getTrip().category}">...</span></span>
-					</div>
-					<div>
-						<span>From: <span th:text="${reservation.getTrip().origin}">...</span></span>
-					</div>
-					<div>
-						<span>To: <span th:text="${reservation.getTrip().destination}">...</span></span>
-					</div>
-					<div>
-						<span>Departure Date: <span th:text="${reservation.getTrip().departuredate}">...</span></span>
-					</div>
-					<div>
-						<span>Return Date: <span th:text="${reservation.getTrip().returndate}">...</span></span>
-					</div>
-					<div>
-						<span>Days: <span th:text="${reservation.getTrip().days}">...</span></span>
-					</div>
-					<button>
-						<a th:href="@{'/trip' + '/' + ${reservation.getTrip().id}}">Open for more details of this trip</a>
-					</button>
-				</li>
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips" >Trips</a></li>
+				<li><a href="/admin/formNewTrip">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li><a class="active" href="/admin/reservations">All reservations</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
 			</ul>
-		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		</header>
+		
+		
+		
+		<h1 class="cen">All reservations made:</h1>
+		<div class="cen" th:if="${reservations==null || reservations.isEmpty()}">No reservations have been made.</div>
+		<div class="reservations-container">
+			<div th:each="reservation : ${reservations}">
+				<div class="box">
+					<div class="box1">
+						
+						<div>
+							<h2>
+								<span>On <span th:text="${reservation.dateofreservation}">...</span></span>
+								<span>the user <span th:text="${reservation.getUser().name + ' ' + reservation.getUser().surname + ' ' + '(' + reservation.getUser().username + ')'}">...</span></span>
+								<span>has booked the following trip :</span>
+							</h2>
+						</div>
+						<div>
+							<span class="grosso">Category: </span><span th:text="${reservation.getTrip().category}">...</span>
+						</div>
+						<div>
+							<span class="grosso">From: </span><span th:text="${reservation.getTrip().origin}">...</span>
+						</div>
+						<div>
+							<span class="grosso">To: </span><span th:text="${reservation.getTrip().destination}">...</span>
+						</div>
+						<div>
+							<span class="grosso">Departure date: </span><span th:text="${reservation.getTrip().departuredate}">...</span>
+						</div>
+						<div>
+							<span class="grosso">Return date: </span><span th:text="${reservation.getTrip().returndate}">...</span>
+						</div>
+						<div>
+							<span class="grosso">Days: </span><span th:text="${reservation.getTrip().days}">...</span>
+						</div>
+							<a class="btn"th:href="@{'/trip' + '/' + ${reservation.getTrip().id}}">See trip with details</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
+
+		<!-- Custom JS -->
+		<script>
+    		
+			// Header scroll
+			let header = document.querySelector('header');
+			
+			window.addEventListener('scroll', () => {
+				header.classList.toggle('shadow', window.scrollY > 0);
+			});
+  			
+		</script>
+
 	</body>
 </html>

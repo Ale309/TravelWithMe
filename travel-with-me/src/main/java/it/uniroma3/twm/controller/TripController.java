@@ -157,7 +157,7 @@ public class TripController {
 			@RequestParam(name="returndate", required = false) LocalDate returndate) {
 		List<Trip> trips = this.tripService.searchTrips(category, origin, destination, departuredate, returndate);
 	    model.addAttribute("trips", trips);
-		return "foundTrips.html";
+		return "trips.html";
 	}
 
 }

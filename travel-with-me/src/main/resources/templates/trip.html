@@ -1,133 +1,169 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - Trip</title>
+		<link rel="stylesheet" href="/css/trip.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+  		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div sec:authorize="hasAuthority('ADMIN')">
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</div>
-				<div sec:authorize="hasAuthority('DEFAULT')">
-					<a href="/myReservations"><button>My Reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/login"><button>Login</button></a>
-				</div>
-			</nav>
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/formNewTrip">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
+			</ul>
 		</header>
-		<section>
-			<h1>Dettagli Viaggio</h1>
-			<div th:if="${trip}">
-				<div th:each="image: ${trip.images}">
-            		<img th:src="@{'/image/' + ${image.id}}">
-        		</div>
-				<div>
-					<span>Category: </span><span th:text="${trip.category}">...</span>
-				</div>
-				<div>
-					<span>From: </span><span th:text="${trip.origin}">...</span>
-				</div>
-				<div>
-					<span>To: </span><span th:text="${trip.destination}">...</span>
-				</div>
-				<div>
-					<span>Departure date: </span><span th:text="${trip.departuredate}">...</span>
-				</div>
-				<div>
-					<span>Return date: </span><span th:text="${trip.returndate}">...</span>
-				</div>
-				<div>
-					<span>The trip lasts </span><span th:text="${trip.days}">...</span><span> days. </span>
-				</div>
-				<div>
-					<span>Description: </span><span th:text="${trip.description}">...</span>
-				</div>
-				<div>
-					<span>Price: </span><span th:text="${trip.price}">...</span><span> EUR</span>
-				</div>
-				<div>
-					<span>Availability: </span><span th:text="${trip.availability}">...</span> Left
-				</div>
-				
-				<button sec:authorize="hasAuthority('ADMIN')">
-               		<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}">Update this trip</a>
-                </button>
-        		
-        		<div sec:authorize="hasAuthority('DEFAULT')">
-					<div th:if="${hasPartecipated}">
-        				<div th:if="${hasNotAlreadyCommented}">
-                			<h1>Aggiungi recensione</h1>
-                			<form th:action="@{'/user/uploadReview/' + ${trip.id}}" method="post" th:object="${review}" class="form">
-                    			<div>
-                        			<span><input hidden th:value="${username}" th:field="${review.username}" /></span>
-                    			</div>
-                    			<div>
-                        			<label>Titolo:</label>
-			                        <span><input type="text" th:field="${review.title}" required/></span>
-			                    </div>
-			                    <div>
-			                        <label>Descrizione:</label>
-			                        <span><input type="text" th:field="${review.description}" /></span>
-			                    </div>
-			                    <div>
-			                        <label>Rating:</label>
-			                        <span><input type="number" min="1" max="5" th:field="${review.rating}" required /></span>
-			                    </div>
-			                    <div>
-			                        <span><button type="submit">Conferma</button></span>
-			                    </div>
-			                </form>
-			        	</div>
-        			</div>
-        			<div th:unless="${hasPartecipated}">
+		
+		<div th:if="${trip}">
+			<section class="home swiper" id="home">
+				<div class="swiper-wrapper">
+	      			<div class="swiper-slide container"  th:each="image: ${trip.images}">
+						<img th:src="@{'/image/' + ${image.id}}">
+					 </div>
+	    		</div>
+	    		<div class="swiper-pagination"></div>
+			</section>
+			
+			<div class="fascia">
+				<h1><span class="hide">-----</span> Trip details:</h1>
+			</div>
+			<section class="cont">
+				<div class="a1">
+					<div>
+						<span class="grosso">Category: </span><span th:text="${trip.category}">...</span>
+					</div>
+					<div>
+						<span class="grosso">From: </span><span th:text="${trip.origin}">...</span>
+					</div>
+					<div>
+						<span class="grosso">To: </span><span th:text="${trip.destination}">...</span>
+					</div>
+					<div>
+						<span class="grosso">Departure date: </span><span th:text="${trip.departuredate}">...</span>
+					</div>
+					<div>
+						<span class="grosso">Return date: </span><span th:text="${trip.returndate}">...</span>
+					</div>
+					<div>
+						<span class="grosso">Description: </span><span th:text="${trip.description}">...</span>
+					</div>
+					<div>
+						<span>The trip lasts </span><span th:text="${trip.days}">...</span><span> days. </span>
+					</div>
+					<div>
+						<span class="grosso">Price: </span><span th:text="${trip.price}">...</span><span> EUR</span>
+					</div>
+					<div>
+						<span class="grosso">Availability: </span><span th:text="${trip.availability}">...</span> Left
+					</div>
+					
+               		<a th:href="@{'/admin/formUpdateTrip/' + ${trip.id}}"><button sec:authorize="hasAuthority('ADMIN')">Update this trip</button></a>
+					
+					<div sec:authorize="hasAuthority('DEFAULT')" th:unless="${hasPartecipated}">
 						<div th:if="${trip.availability != 0}">
 							<a th:href="@{'/newReservation/' + ${trip.id}}"><button>Book</button></a>
 						</div>
+					
+			</section>
+			<div class="fascia">
+				<h1><span class="hide">-----</span> Reviews:</h1>
+			</div>
+			<section class="cont">
+				<div class="a2">
+					<div th:if="${hasReviews}">
+						<div th:each="rev : ${reviews}">
+							<div>
+								<span class="grosso und" th:text="${rev.username}">:</span>
+							</div>
+							<div>
+								<span class="grosso">Title: </span> <span th:text="${rev.title}"></span>
+							</div>
+							<div>
+								<span class="grosso">Description: </span> <span th:text="${rev.description}"></span>
+							</div>
+							<div>
+								<span class="grosso">Rating: </span><span th:text="${rev.rating} + '/5'"></span>
+							</div>
+							<a th:href="@{'/admin/deleteReview/' + ${trip.id} + '/' + ${rev.id}}"><button sec:authorize="hasAuthority('ADMIN')">Delete</button></a>
+						</div>
 					</div>
+					<div th:unless="${hasReviews}">
+            			No reviews
+        			</div>
+        			<div sec:authorize="hasAuthority('DEFAULT')">
+						<div th:if="${hasPartecipated}">
+	        				<div th:if="${hasNotAlreadyCommented}">
+								<div class="diff">Add your Review: </div>
+	                			<form th:action="@{'/user/uploadReview/' + ${trip.id}}" method="post" th:object="${review}" class="form">
+	                    			<div>
+	                        			<span><input hidden th:value="${username}" th:field="${review.username}" /></span>
+	                    			</div>
+	                    			<div>
+	                        			<span class="grosso">Title: </span>
+				                        <span><input type="text" th:field="${review.title}" required/></span>
+				                    </div>
+				                    <div>
+				                       <span class="grosso">Description: </span>
+				                        <span><input type="text" th:field="${review.description}" /></span>
+				                    </div>
+				                    <div>
+				                        <span class="grosso">Rating: </span>
+				                        <span><input type="number" min="1" max="5" th:field="${review.rating}" required /></span>
+				                    </div>
+				                    <div>
+				                        <span><button type="submit">Send</button></span>
+				                    </div>
+				                </form>
+				        	</div>
+	        			</div>
+        			</div>
 				</div>
+			</section>
 				
-				<h1>Recensioni</h1>
-        		<div th:if="${hasReviews}">
-            		<ul th:each="rev : ${reviews}">
-                	<div>
-                    	<span th:text="${rev.username}"></span> <span> Ha Scritto </span>
-                	</div>
-                	<div>
-                    	<span>Titolo: </span> <span th:text="${rev.title}"></span>
-                	</div>
-					<div>
-                    	<span>Descrizione: </span> <span th:text="${rev.description}"></span>
-              		</div>
-                	<div class="bottom-label">
-                    	<span>Rating: </span><span th:text="${rev.rating}"></span>
-                    	<button sec:authorize="hasAuthority('ADMIN')">
-                       		<a th:href="@{'/admin/deleteReview/' + ${trip.id} + '/' + ${rev.id}}">Delete</a>
-                    	</button>
-                	</div>
-            		</ul>
-        		</div>
-        		<div th:unless="${hasReviews}">
-            		Non ci sono recensioni per ora.
-        		</div>
-        		
-			</div>
-			<div th:unless="${trip}">Non esiste	il viaggio
-			</div>
-		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		</div>
+		<div th:unless="${trip}">The trip doesn't exist.</div>
+
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
+		
+		 <!-- Swiper JS -->
+  		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script>
+			
+			//Swiper
+  			var swiper = new Swiper(".home", {
+    			spaceBetween: 30,
+    			centeredSlides: true,
+    			autoplay: {
+      			delay: 2500,
+      			disableOnInteraction: false,
+    		},
+    		pagination: {
+      			el: ".swiper-pagination",
+      			clickable: true,
+    		},
+  			});
+		</script>
+
 	</body>
 </html>

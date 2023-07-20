@@ -1,98 +1,144 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>
-			Travel With Me
-		</title>
-			<link rel="stylesheet" href="/css/index.css" />
+		<meta chaset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initia-scale=1.0">
+		<title>Travel With Me - New Trip</title>
+		<link rel="stylesheet" href="/css/formNewTrip.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+		<!-- Link Swiper's CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 	</head>
 	<body>
 		<header>
-			<nav>
-				<div>
-					<a href="/">Home</a>
-				</div>
-				<div>
-					<a href="/admin/reservations"><button>All Reservations</button></a>
-				</div>
-				<div th:if="${userDetails}" class="login">
-					<span th:text="${userDetails.username}"></span>
-					<a href="/logout"><button>Logout</button></a>
-				</div>
-				<div th:unless="${userDetails}">
-					<a href="/signin"><button>Login</button></a>
-				</div>
-			</nav>
-		</header>
-		<section>
-			<h1>Aggiungi un nuovo viaggio</h1>
-				<form th:action="@{/admin/trip}" method="POST" th:object="${trip}" enctype="multipart/form-data" onsubmit="return validateDates();">
-					<div th:if="${#fields.hasGlobalErrors()}">
-  						<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
-  					</div>
-  					<div>
-						<label>Inserisci immagini:</label> <span><input type="file" name="tripImage" multiple/></span>
-					</div>
-  					<div>
-						<label>Category:</label>
-						<span><input type="text" th:field="${trip.category}" required /></span>
-						<span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
-					</div>
-					<div>
-						<label>From:</label>
-						<span><input type="text" th:field="${trip.origin}" required /></span>
-						<span th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></span>
-					</div>
-					<div>
-						<label>To:</label>
-						<span><input type="text" th:field="${trip.destination}" required /></span>
-						<span th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></span>
-					</div>
-					<div>
-						<label>Departure date:</label>
-						<span><input type="date" id="departureDate" th:field="${trip.departuredate}" required /></span>
-						<span th:if="${#fields.hasErrors('departuredate')}" th:errors="*{departuredate}"></span>
-					</div>
-					<div>
-						<label>Return date:</label>
-						<span><input type="date" id="returnDate" th:field="${trip.returndate}" required /></span>
-						<span th:if="${#fields.hasErrors('returndate')}" th:errors="*{returndate}"></span>
-					</div>
-					<div>
-						<label>Description:</label>
-						<span><input type="text" th:field="${trip.description}"/></span>
-						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
-					</div>
-					<div>
-						<label>Availability:</label>
-						<span><input type="text" th:field="${trip.availability}" min="0" /></span>
-						<span th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}"></span>
-					</div>
-					<div>
-						<label>Price:</label>
-						<span><input type="text" th:field="${trip.price}" min="0" step="0.01"/></span>
-						<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
-					</div>
-					<div>
-						<span><button type="submit">Add</button></span>
-					</div>
-				</form>
-				
-				<script>
-    				function validateDates() {
-        			var departureDate = new Date(document.getElementById('departureDate').value);
-        			var returnDate = new Date(document.getElementById('returnDate').value);
+			<a href="/" class="logo"> <i class='bx bxs-map'></i> Travel with me </a>
+			
+			<ul class="navbar">
+				<li><a href="/">Home</a></li>
+				<li><a href="/searchTrip">Book</a></li>
+				<li><a href="/trips">Trips</a></li>
+				<li><a href="/admin/formNewTrip" class="active">+ New trip</a></li>
+				<li><a href="/#feedbacks">Feedbacks</a></li>
+				<li><a href="/#contacts">Contacts</a></li>
+				<li sec:authorize="hasAuthority('DEFAULT')"><a href="/myReservations">My reservations</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a href="/admin/reservations">All reservations</a></li>
 
-        			if (returnDate < departureDate) {
-            			alert('The return date cannot be earlier than the departure date');
-            			return false;
-        				}
-    				}
-				</script>
-				
+				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
+				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
+				<li th:unless="${userDetails}"><a href="/login">Login</a></li>
+			</ul>
+		</header>
+		
+		<section class="home swiper" id="home">
+			<div class="swiper-wrapper">
+      			<div class="swiper-slide container">
+					<img src="/images/book1.jpg" alt="">
+				 </div>
+				 <div class="swiper-slide container">
+					<img src="/images/book2.jpg" alt="">
+				 </div>
+				 <div class="swiper-slide container">
+					<img src="/images/book3.jpg" alt="">
+				 </div>
+    		</div>
+    		<div class="swiper-pagination"></div>
 		</section>
-		<footer>
-    		Made by MADALIN ALEXANDRU AVADANEI
-  		</footer>
+		
+		<section class="searchbox">
+			<h2>Add a new trip</h2>
+			<form th:action="@{/admin/trip}" method="POST" th:object="${trip}" enctype="multipart/form-data" onsubmit="return validateDates();">
+				<div>
+					<label>Add Images:</label> <span><input type="file" name="tripImage" multiple/></span>
+				</div>
+				<div>
+					<input type="text" placeholder="Category" th:field="${trip.category}" required/>
+				</div>
+				<input type="text" placeholder="From" th:field="${trip.origin}" required/>
+				<div>
+					<input type="text" placeholder="To" th:field="${trip.destination}" required/>
+				</div>
+				<div class="input-group">
+					<label for="departuredate">Departure Date</label>
+					<input type="date" id="departureDate" th:field="${trip.departuredate}" required/>
+				</div>
+				
+				<div class="input-group">
+					<label for="returndate">Return Date</label>
+					<input type="date" id="returnDate" th:field="${trip.returndate}" required/>
+				</div>
+				<div>
+					<input type="text" placeholder="Description" th:field="${trip.description}"/>
+				</div>
+				<div>
+					<input type="text" placeholder="Availability" th:field="${trip.availability}" min="0"/>
+				</div>
+				<div>
+					<input type="text" placeholder="price" th:field="${trip.price}" min="0" step="0.01"/>
+				</div>
+				<div>
+					<button type="submit">Create</button>
+				</div>
+			</form>
+		</section>
+		
+		
+		<div class="copyright">
+			<p>&#169; TravelWithMe All Right Reserved</p>
+		</div>
+		
+		
+		<!-- Swiper JS -->
+  		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script>
+			//Validation
+			function validateDates() {
+		        var departureDateInput = document.getElementById('departureDate');
+		        var departureDate = new Date(departureDateInput.value);
+		        var currentDate = new Date();
+		
+		        // Ottieni solo la data corrente, senza l'ora
+		        currentDate.setHours(0, 0, 0, 0);
+		
+		        if (departureDate < currentDate) {
+		            alert('The departure date cannot be earlier than the current date.');
+		            return false;
+		        }
+		
+		        var returnDateInput = document.getElementById('returnDate');
+		        var returnDate = new Date(returnDateInput.value);
+		
+		        if (returnDate < departureDate) {
+		            alert('The return date cannot be earlier than the departure date.');
+		            return false;
+		        }
+		    }
+    				
+			// Header scroll
+			let header = document.querySelector('header');
+			
+			window.addEventListener('scroll', () => {
+				header.classList.toggle('shadow', window.scrollY > 0);
+			});
+			
+			// Swiper
+  			var swiper = new Swiper(".home", {
+    			spaceBetween: 30,
+    			centeredSlides: true,
+    			autoplay: {
+      			delay: 2500,
+      			disableOnInteraction: false,
+    		},
+    		pagination: {
+      			el: ".swiper-pagination",
+      			clickable: true,
+    		},
+  			});
+  			
+  			
+		</script>
+
 	</body>
 </html>

@@ -21,7 +21,7 @@
 				<li><a href="/#contacts">Contacts</a></li>
 				<li th:if="${userDetails}">Account: <em><span th:text="${userDetails.username}"></span></em></li>
 				<li th:if="${userDetails}"><a href="/logout">Logout</a></li>
-				<li th:unless="${userDetails}" class="active" ><a href="/login">Login</a></li>
+				<li th:unless="${userDetails}" ><a href="/login" class="active" >Login</a></li>
 			</ul>
 		</header>
 		
