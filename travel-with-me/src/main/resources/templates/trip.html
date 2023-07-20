@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 		<!-- Link Swiper's CSS -->
   		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 	</head>
 	<body>
@@ -98,7 +99,11 @@
 								<span class="grosso">Description: </span> <span th:text="${rev.description}"></span>
 							</div>
 							<div>
-								<span class="grosso">Rating: </span><span th:text="${rev.rating} + '/5'"></span>
+								<span class="grosso">Rating: </span>
+								<span>
+							        <i class="fas fa-star star-filled" th:each="star: ${#numbers.sequence(1, rev.rating)}"></i>
+							        <i class="far fa-star star-empty" th:each="star: ${#numbers.sequence(1, 5 - rev.rating)}"></i>
+							    </span>
 							</div>
 							<a th:href="@{'/admin/deleteReview/' + ${trip.id} + '/' + ${rev.id}}"><button sec:authorize="hasAuthority('ADMIN')">Delete</button></a>
 						</div>
