@@ -30,7 +30,7 @@
 			</ul>
 		</header>
 		
-		<h1>Our Trips:</h1>
+		<h1>Our Trips (<span th:text="${numtrips}"></span>): </h1>
 		<div th:if="${trips==null || trips.isEmpty()}">There are no trips.</div>
 		<div class="trips-container">
 			<div th:each="trip : ${trips}">
